@@ -8,11 +8,17 @@ A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimes
 
 * **MiniMessage Formatting** - [Link](https://docs.advntr.dev/minimessage/format.html)
 * **MiniMessage Previewer** - [Link](https://webui.advntr.dev/)
-* **Adventure Documentation** - [Link](https://docs.advntr.dev/minimessage/format.html)
+* **Adventure Documentation** - [Link](https://docs.advntr.dev/index.html)
 
 ---
 
 ## Usage
+
+Basic usage example parsing a string into a component:
+```java
+Component message = new ColorParser("<#00ff00><hover:show_text:'<red>test'>R G B!").build();
+player.sendMessage(message);
+```
 
 This example has a custom placeholder (`<player>`) in the string that needs to be replaced:
 ```java
@@ -37,7 +43,6 @@ player.sendMessage(message);
 ## Installation
 
 **Gradle**
-
 ```kotlin
 repositories {
     maven("https://jitpack.io/") {
@@ -48,6 +53,6 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.milkdrinkers:ColorParser:1.0.0")
+    implementation("com.github.milkdrinkers:colorparser:1.0.0")
 }
 ```
