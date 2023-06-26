@@ -25,7 +25,9 @@ repositories {
         content { includeGroup("me.clip") }
     }
 
-    maven("https://jitpack.io/")
+    maven("https://jitpack.io/") {
+        content {}
+    }
 }
 
 dependencies {
@@ -40,6 +42,7 @@ tasks {
 
     compileJava {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
+        options.release.set(17)
     }
 
     /*shadowJar {
