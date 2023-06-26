@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.milkdrinkers"
-version = "1.0.0"
+version = "1.0.1"
 description = ""
 
 java {
