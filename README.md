@@ -1,3 +1,14 @@
+
+<h1 align="center">ColorParser</h1>
+<p align="center">
+    <img src="https://img.shields.io/github/license/milkdrinkers/ColorParser?color=blue&style=flat-square" alt="license"/>
+    <a href="https://search.maven.org/artifact/dev.triumphteam/triumph-gui"><img src="https://img.shields.io/github/v/release/milkdrinkers/ColorParser?color=green&style=flat-square" alt="release"></a>
+    <a href="https://github.com/milkdrinkers/ColorParser#installation"><img src="https://jitpack.io/v/milkdrinkers/colorparser.svg?style=flat-square" alt="jitpack"/></a>
+    <a href="https://jitpack.io/com/github/USER/REPO/latest/javadoc/"><img src="https://img.shields.io/badge/Javadoc-8A2BE2?style=flat-square" alt="javadoc"/></a>
+</p>
+
+---
+
 ## Description
 
 A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimessage/format.html) support with [Adventure](https://docs.advntr.dev/index.html) on Paper server.
@@ -6,6 +17,7 @@ A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimes
 
 ## Useful Links
 
+* **JavaDoc** - [Link](https://jitpack.io/com/github/USER/REPO/latest/javadoc/)
 * **MiniMessage Formatting** - [Link](https://docs.advntr.dev/minimessage/format.html)
 * **MiniMessage Previewer** - [Link](https://webui.advntr.dev/)
 * **Adventure Documentation** - [Link](https://docs.advntr.dev/index.html)
@@ -42,7 +54,7 @@ player.sendMessage(message);
 
 ## Installation
 
-**Gradle**
+**Gradle (Kotlin DSL)**
 ```kotlin
 repositories {
     maven("https://jitpack.io/") {
@@ -53,7 +65,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.milkdrinkers:colorparser:1.0.0")
+    implementation("com.github.milkdrinkers:colorparser:1.0.5")
 }
 ```
 
@@ -69,6 +81,6 @@ dependencies {
 <dependency>
     <groupId>com.github.milkdrinkers</groupId>
     <artifactId>colorparser</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.5</version>
 </dependency>
 ```
