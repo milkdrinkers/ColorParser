@@ -56,3 +56,19 @@ dependencies {
     implementation("com.github.milkdrinkers:colorparser:1.0.0")
 }
 ```
+
+**Maven**
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependency>
+    <groupId>com.github.milkdrinkers</groupId>
+    <artifactId>colorparser</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
