@@ -2,12 +2,14 @@ package com.github.milkdrinkers.colorparser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +20,53 @@ import org.jetbrains.annotations.NotNull;
 public class ColorParser {
 
   private static final MiniMessage mm = MiniMessage.miniMessage();
-  private static final LegacyComponentSerializer legacy = LegacyComponentSerializer.legacySection();
+  private static final Pattern legacyRegex = Pattern.compile("[§&][0-9a-fk-or]");
+  private static final Map<String, String> legacyToMiniMessage = Map.ofEntries(
+      Map.entry("§0", "<black>"),
+      Map.entry("§1", "<dark_blue>"),
+      Map.entry("§2", "<dark_green>"),
+      Map.entry("§3", "<dark_aqua>"),
+      Map.entry("§4", "<dark_red>"),
+      Map.entry("§5", "<dark_purple>"),
+      Map.entry("§6", "<gold>"),
+      Map.entry("§7", "<gray>"),
+      Map.entry("§8", "<dark_gray>"),
+      Map.entry("§9", "<blue>"),
+      Map.entry("§a", "<green>"),
+      Map.entry("§b", "<aqua>"),
+      Map.entry("§c", "<red>"),
+      Map.entry("§d", "<light_purple>"),
+      Map.entry("§e", "<yellow>"),
+      Map.entry("§f", "<white>"),
+      Map.entry("§k", "<obfuscated>"),
+      Map.entry("§l", "<bold>"),
+      Map.entry("§m", "<strikethrough>"),
+      Map.entry("§n", "<underlined>"),
+      Map.entry("§o", "<italic>"),
+      Map.entry("§r", "<reset>"),
+      Map.entry("&0", "<black>"),
+      Map.entry("&1", "<dark_blue>"),
+      Map.entry("&2", "<dark_green>"),
+      Map.entry("&3", "<dark_aqua>"),
+      Map.entry("&4", "<dark_red>"),
+      Map.entry("&5", "<dark_purple>"),
+      Map.entry("&6", "<gold>"),
+      Map.entry("&7", "<gray>"),
+      Map.entry("&8", "<dark_gray>"),
+      Map.entry("&9", "<blue>"),
+      Map.entry("&a", "<green>"),
+      Map.entry("&b", "<aqua>"),
+      Map.entry("&c", "<red>"),
+      Map.entry("&d", "<light_purple>"),
+      Map.entry("&e", "<yellow>"),
+      Map.entry("&f", "<white>"),
+      Map.entry("&k", "<obfuscated>"),
+      Map.entry("&l", "<bold>"),
+      Map.entry("&m", "<strikethrough>"),
+      Map.entry("&n", "<underlined>"),
+      Map.entry("&o", "<italic>"),
+      Map.entry("&r", "<reset>")
+  );
   private final List<TagResolver> minimessagePlaceholders = new ArrayList<>(); // Store MiniMessage placeholders to be applied
   private String text;
 
@@ -51,13 +99,22 @@ public class ColorParser {
   }
 
   /**
-   * Parse legacy color codes and formatting.
+   * Parse legacy color codes and formatting, including <code>{@literal &}</code> and
+   * <code>{@literal §}</code> into their minimessage equivalents.
    *
    * @return the component parser
    */
   public @NotNull ColorParser parseLegacy() {
-    this.text = legacy.serialize(Component.text(this.text));
-//        this.text = ChatColor.translateAlternateColorCodes('&', text);
+    String textParsed = this.text;
+    final Matcher matcher = legacyRegex.matcher(textParsed);
+
+    while (matcher.find()) {
+      final String match = matcher.group();
+      textParsed = textParsed.replace(match, legacyToMiniMessage.getOrDefault(match, match));
+    }
+
+    this.text = textParsed;
+
     return this;
   }
 
