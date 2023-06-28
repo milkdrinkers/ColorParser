@@ -16,7 +16,7 @@ A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimes
 
 ## Useful Links
 
-* **JavaDoc** - [Link](https://jitpack.io/com/github/USER/REPO/latest/javadoc/)
+* **JavaDoc** - [Link](https://jitpack.io/com/github/milkdrinkers/colorparser/latest/javadoc/)
 * **MiniMessage Formatting** - [Link](https://docs.advntr.dev/minimessage/format.html)
 * **MiniMessage Previewer** - [Link](https://webui.advntr.dev/)
 * **Adventure Documentation** - [Link](https://docs.advntr.dev/index.html)
@@ -43,7 +43,7 @@ Component message = new ColorParser("&6So<green>me &5String &4Here").parseLegacy
 player.sendMessage(message);
 ```
 
-This example also parses all PlaceholderAPI placeholders in the string:
+This example parses all PlaceholderAPI placeholders in the string:
 ```java
 Component message = new ColorParser("Your Displayname is: %player_displayname%").parsePAPIPlaceholders(player).build();
 player.sendMessage(message);
@@ -51,9 +51,17 @@ player.sendMessage(message);
 
 --- 
 
+## Dependencies
+
+You need to depend on **paper-api** or depend on **adventure-api**, **adventure-text-minimessage**.
+
+## Soft Dependencies
+
+If you wish to use the PAPI parser method, all you need to do is install PAPI on your server.
+
 ## Installation
 
-**Gradle (Kotlin DSL)**
+### Gradle (Kotlin DSL)
 ```kotlin
 repositories {
     maven("https://jitpack.io/") {
@@ -68,7 +76,7 @@ dependencies {
 }
 ```
 
-**Maven**
+### Maven
 ```xml
 <repositories>
     <repository>
