@@ -3,7 +3,7 @@
 <p align="center">
     <img src="https://img.shields.io/github/license/milkdrinkers/ColorParser?color=blue&style=flat-square" alt="license"/>
     <a href="https://github.com/milkdrinkers/ColorParser#installation"><img src="https://jitpack.io/v/milkdrinkers/colorparser.svg?style=flat-square" alt="jitpack"/></a>
-    <a href="https://jitpack.io/com/github/USER/REPO/latest/javadoc/"><img src="https://img.shields.io/badge/Javadoc-8A2BE2?style=flat-square" alt="javadoc"/></a>
+    <a href="https://jitpack.io/com/github/milkdrinkers/colorparser/latest/javadoc/"><img src="https://img.shields.io/badge/Javadoc-8A2BE2?style=flat-square" alt="javadoc"/></a>
 </p>
 
 ---
