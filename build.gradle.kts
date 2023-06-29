@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.milkdrinkers"
-version = "1.0.6"
+version = "1.0.7"
 description = ""
 
 
@@ -31,6 +31,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains:annotations:24.0.1")
     compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.3")
 }

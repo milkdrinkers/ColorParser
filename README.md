@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.milkdrinkers:colorparser:1.0.6")
+    implementation("com.github.milkdrinkers:colorparser:1.0.7")
 }
 ```
 
@@ -88,6 +88,6 @@ dependencies {
 <dependency>
     <groupId>com.github.milkdrinkers</groupId>
     <artifactId>colorparser</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
 </dependency>
 ```
