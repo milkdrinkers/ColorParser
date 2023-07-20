@@ -7,15 +7,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Builder Util for Adventure Messages.
+ * Builder Utility for easily turning strings into Adventure Components.
  */
 public class ColorParser {
 
@@ -71,22 +74,44 @@ public class ColorParser {
     private String text;
 
     /**
-     * Instantiates a new Component parser.
-     *
-     * @param text the text
+     * Instantiates a new color parser object.
      */
-    public ColorParser(String text) {
-        this.text = text;
+    private ColorParser() {
     }
 
     /**
-     * Text component parser.
+     * Instantiates a new Color parser.
      *
-     * @param text the text
-     * @return the component parser
+     * @param text the string to parse.
+     * @deprecated use {@link com.github.milkdrinkers.colorparser.ColorParser#of(String)}.
+     * Instantiates a new color parser object.
      */
-    public static ColorParser text(String text) {
-        return new ColorParser(text);
+    @Deprecated
+    public ColorParser(String text) {
+        setText(text);
+    }
+
+    /**
+     * Text color parser.
+     *
+     * @param text the string to parse.
+     * @return the color parser object.
+     * @deprecated use {@link com.github.milkdrinkers.colorparser.ColorParser#of(String)}
+     * Instantiates a new color parser object.
+     */
+    @Deprecated
+    public static @NotNull ColorParser text(String text) {
+        return ColorParser.of(text);
+    }
+
+    /**
+     * Instantiates a new color parser object.
+     *
+     * @param text the string to parse.
+     * @return the color parser object.
+     */
+    public static @NotNull ColorParser of(String text) {
+        return new ColorParser().setText(text);
     }
 
     /**
@@ -95,25 +120,25 @@ public class ColorParser {
      * @return the component
      */
     public @NotNull Component build() {
-        return mm.deserialize(this.text, this.minimessagePlaceholders.toArray(new TagResolver[0]));
+        return mm.deserialize(getText(), this.minimessagePlaceholders.toArray(new TagResolver[0]));
     }
 
     /**
      * Parse legacy color codes and formatting, including <code>{@literal &}</code> and
      * <code>{@literal §}</code> into their minimessage equivalents.
      *
-     * @return the component parser
+     * @return the color parser object
      */
     public @NotNull ColorParser parseLegacy() {
-        String textParsed = this.text;
-        final Matcher matcher = legacyRegex.matcher(textParsed);
+        String textParsed = getText();
+        final @NotNull Matcher matcher = legacyRegex.matcher(textParsed);
 
         while (matcher.find()) {
             final String match = matcher.group();
             textParsed = textParsed.replace(match, legacyToMiniMessage.getOrDefault(match, match));
         }
 
-        this.text = textParsed;
+        setText(textParsed);
 
         return this;
     }
@@ -122,16 +147,72 @@ public class ColorParser {
      * Parse all PAPI placeholders.
      *
      * @param p the player to parse for
-     * @return the component parser
+     * @return the color parser object
      */
-    public @NotNull ColorParser parsePAPIPlaceholders(Player p) {
+    public @NotNull ColorParser parsePAPIPlaceholders(@NotNull Player p) {
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            this.text = PlaceholderAPI.setPlaceholders(p.getPlayer(), this.text);
+            setText(PlaceholderAPI.setPlaceholders(p, getText()));
         }
 
         return this;
     }
 
+    /**
+     * Parse all PAPI placeholders.
+     *
+     * @param p the player to parse for
+     * @return the color parser object
+     */
+    public @NotNull ColorParser parsePAPIPlaceholders(@NotNull OfflinePlayer p) {
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            setText(PlaceholderAPI.setPlaceholders(p, getText()));
+        }
+
+        return this;
+    }
+
+    /**
+     * Parse all PAPI placeholders.
+     *
+     * @param p the player to parse for
+     * @param p2 the player to parse for
+     * @return the color parser object
+     */
+    public @NotNull ColorParser parsePAPIPlaceholdersRelational(@NotNull Player p, @NotNull Player p2) {
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            setText(PlaceholderAPI.setRelationalPlaceholders(p, p2, getText()));
+        }
+
+        return this;
+    }
+
+    /**
+     * Parse all PAPI placeholders.
+     *
+     * @param p the player to parse for
+     * @return the color parser object
+     */
+    public @NotNull ColorParser parsePAPIPlaceholdersBracket(@NotNull Player p) {
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            setText(PlaceholderAPI.setBracketPlaceholders(p, getText()));
+        }
+
+        return this;
+    }
+
+    /**
+     * Parse all PAPI placeholders.
+     *
+     * @param p the player to parse for
+     * @return the color parser object
+     */
+    public @NotNull ColorParser parsePAPIPlaceholdersBracket(@NotNull OfflinePlayer p) {
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            setText(PlaceholderAPI.setBracketPlaceholders(p, getText()));
+        }
+
+        return this;
+    }
 
     /**
      * Parse a minimessage placeholder.
@@ -139,13 +220,13 @@ public class ColorParser {
      * @param placeholder the placeholder name like <code>player_name</code>, in config
      *                    <code>{@literal <player_name>}</code>
      * @param value       the value like <code>{@literal "<gold><bold>darksaid98"}</code>
-     * @return the component parser
+     * @return the color parser object
      */
-    public @NotNull ColorParser parseMinimessagePlaceholder(String placeholder, String value) {
+    public @NotNull ColorParser parseMinimessagePlaceholder(@Subst("test_placeholder") @NotNull String placeholder, String value) {
         this.minimessagePlaceholders.add(
             Placeholder.component(
                 placeholder,
-                new ColorParser(value).parseLegacy().build()
+                ColorParser.of(value).parseLegacy().build()
             )
         );
 
@@ -158,9 +239,9 @@ public class ColorParser {
      * @param placeholder the placeholder name like <code>player_name</code>, in config
      *                    <code>{@literal <player_name>}</code>
      * @param value       a component
-     * @return the component parser
+     * @return the color parser object
      */
-    public @NotNull ColorParser parseMinimessagePlaceholder(String placeholder, Component value) {
+    public @NotNull ColorParser parseMinimessagePlaceholder(@Subst("test_placeholder") @NotNull String placeholder, @NotNull ComponentLike value) {
         this.minimessagePlaceholders.add(
             Placeholder.component(
                 placeholder,
@@ -176,15 +257,25 @@ public class ColorParser {
      *
      * @param placeholder the placeholder like <code>{@literal %player_name%}</code>
      * @param value       the value like <code>{@literal &6&ldarksaid98}</code>
-     * @return the component parser
+     * @return the color parser object
      */
-    public @NotNull ColorParser parseStringPlaceholder(String placeholder, String value) {
-        this.text = this.text.replaceAll(placeholder, value);
+    public @NotNull ColorParser parseStringPlaceholder(@NotNull String placeholder, @NotNull String value) {
+        setText(getText().replaceAll(placeholder, value));
 
         return this;
     }
 
     public String toString() {
-        return this.text;
+        return getText();
+    }
+
+    private String getText() {
+        return text;
+    }
+
+    private @NotNull ColorParser setText(String text) {
+        this.text = text;
+
+        return this;
     }
 }

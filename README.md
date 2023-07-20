@@ -27,25 +27,25 @@ A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimes
 
 Basic usage example parsing a string into a component:
 ```java
-Component message = new ColorParser("<#00ff00><hover:show_text:'<red>test'>R G B!").build();
+Component message = ColorParser.of("<#00ff00><hover:show_text:'<red>test'>R G B!").build();
 player.sendMessage(message);
 ```
 
 This example has a custom placeholder (`<player>`) in the string that needs to be replaced:
 ```java
-Component message = new ColorParser("<green><player> Teleported to you.").parseMinimessagePlaceholder("player", player.getName()).build();
+Component message = ColorParser.of("<green><player> Teleported to you.").parseMinimessagePlaceholder("player", player.getName()).build();
 player.sendMessage(message);
 ```
 
 This example also parses legacy color codes in the string:
 ```java
-Component message = new ColorParser("&6So<green>me &5String &4Here").parseLegacy().build();
+Component message = ColorParser.of("&6So<green>me &5String &4Here").parseLegacy().build();
 player.sendMessage(message);
 ```
 
 This example parses all PlaceholderAPI placeholders in the string:
 ```java
-Component message = new ColorParser("Your Displayname is: %player_displayname%").parsePAPIPlaceholders(player).build();
+Component message = ColorParser.of("Your Displayname is: %player_displayname%").parsePAPIPlaceholders(player).build();
 player.sendMessage(message);
 ```
 
@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.milkdrinkers:colorparser:1.0.7")
+    implementation("com.github.milkdrinkers:colorparser:2.0.0")
 }
 ```
 
@@ -88,6 +88,6 @@ dependencies {
 <dependency>
     <groupId>com.github.milkdrinkers</groupId>
     <artifactId>colorparser</artifactId>
-    <version>1.0.7</version>
+    <version>2.0.0</version>
 </dependency>
 ```
