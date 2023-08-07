@@ -2,7 +2,8 @@
 <h1 align="center">ColorParser</h1>
 <p align="center">
     <img src="https://img.shields.io/github/license/milkdrinkers/ColorParser?color=blue&style=flat-square" alt="license"/>
-    <a href="https://github.com/milkdrinkers/ColorParser#installation"><img src="https://jitpack.io/v/milkdrinkers/colorparser.svg?style=flat-square" alt="jitpack"/></a>
+    <a href="https://milkdrinkers.github.io/ColorParser/installation"><img src="https://jitpack.io/v/milkdrinkers/colorparser.svg?style=flat-square" alt="jitpack"/></a>
+    <a href="https://milkdrinkers.github.io/ColorParser/introduction"><img src="https://img.shields.io/badge/Documentation-900C3F?style=flat-square" alt="documentation"/></a>
     <a href="https://jitpack.io/com/github/milkdrinkers/colorparser/latest/javadoc/"><img src="https://img.shields.io/badge/Javadoc-8A2BE2?style=flat-square" alt="javadoc"/></a>
 </p>
 
@@ -10,12 +11,13 @@
 
 ## Description
 
-A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimessage/format.html) support with [Adventure](https://docs.advntr.dev/index.html) on Paper server.
+A simple utility library for easily adding [MiniMessage](https://docs.advntr.dev/minimessage/format.html) support with [Adventure](https://docs.advntr.dev/index.html) on any platform.
 
 ---
 
 ## Useful Links
 
+* **Documentation** - [Link](https://milkdrinkers.github.io/ColorParser/introduction)
 * **JavaDoc** - [Link](https://jitpack.io/com/github/milkdrinkers/colorparser/latest/javadoc/)
 * **MiniMessage Formatting** - [Link](https://docs.advntr.dev/minimessage/format.html)
 * **MiniMessage Previewer** - [Link](https://webui.advntr.dev/)
@@ -23,7 +25,7 @@ A simple utility for easily adding [MiniMessage](https://docs.advntr.dev/minimes
 
 ---
 
-## Usage
+## Examples
 
 Basic usage example parsing a string into a component:
 ```java
@@ -49,45 +51,8 @@ Component message = ColorParser.of("Your Displayname is: %player_displayname%").
 player.sendMessage(message);
 ```
 
---- 
-
-## Dependencies
-
-You need to depend on **paper-api** or depend on **adventure-api**, **adventure-text-minimessage**.
-
-## Soft Dependencies
-
-If you wish to use the PAPI parser method, all you need to do is install PAPI on your server.
+---
 
 ## Installation
 
-### Gradle (Kotlin DSL)
-```kotlin
-repositories {
-    maven("https://jitpack.io/") {
-        content {
-            includeGroup("com.github.milkdrinkers")
-        }
-    }
-}
-
-dependencies {
-    implementation("com.github.milkdrinkers:colorparser:2.0.0")
-}
-```
-
-### Maven
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
-
-<dependency>
-    <groupId>com.github.milkdrinkers</groupId>
-    <artifactId>colorparser</artifactId>
-    <version>2.0.0</version>
-</dependency>
-```
+Please check out our [Documentation](https://milkdrinkers.github.io/ColorParser/introduction) for installation steps.
