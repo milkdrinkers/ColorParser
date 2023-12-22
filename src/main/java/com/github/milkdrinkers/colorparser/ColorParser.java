@@ -2,13 +2,10 @@ package com.github.milkdrinkers.colorparser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Bukkit;
@@ -21,55 +18,6 @@ import org.jetbrains.annotations.NotNull;
  * Builder Utility for easily turning strings into Adventure Components.
  */
 public class ColorParser {
-
-    private static final MiniMessage mm = MiniMessage.miniMessage();
-    private static final Pattern legacyRegex = Pattern.compile("[§&][0-9a-fk-or]");
-    private static final Map<String, String> legacyToMiniMessage = Map.ofEntries(
-        Map.entry("§0", "<black>"),
-        Map.entry("§1", "<dark_blue>"),
-        Map.entry("§2", "<dark_green>"),
-        Map.entry("§3", "<dark_aqua>"),
-        Map.entry("§4", "<dark_red>"),
-        Map.entry("§5", "<dark_purple>"),
-        Map.entry("§6", "<gold>"),
-        Map.entry("§7", "<gray>"),
-        Map.entry("§8", "<dark_gray>"),
-        Map.entry("§9", "<blue>"),
-        Map.entry("§a", "<green>"),
-        Map.entry("§b", "<aqua>"),
-        Map.entry("§c", "<red>"),
-        Map.entry("§d", "<light_purple>"),
-        Map.entry("§e", "<yellow>"),
-        Map.entry("§f", "<white>"),
-        Map.entry("§k", "<obfuscated>"),
-        Map.entry("§l", "<bold>"),
-        Map.entry("§m", "<strikethrough>"),
-        Map.entry("§n", "<underlined>"),
-        Map.entry("§o", "<italic>"),
-        Map.entry("§r", "<reset>"),
-        Map.entry("&0", "<black>"),
-        Map.entry("&1", "<dark_blue>"),
-        Map.entry("&2", "<dark_green>"),
-        Map.entry("&3", "<dark_aqua>"),
-        Map.entry("&4", "<dark_red>"),
-        Map.entry("&5", "<dark_purple>"),
-        Map.entry("&6", "<gold>"),
-        Map.entry("&7", "<gray>"),
-        Map.entry("&8", "<dark_gray>"),
-        Map.entry("&9", "<blue>"),
-        Map.entry("&a", "<green>"),
-        Map.entry("&b", "<aqua>"),
-        Map.entry("&c", "<red>"),
-        Map.entry("&d", "<light_purple>"),
-        Map.entry("&e", "<yellow>"),
-        Map.entry("&f", "<white>"),
-        Map.entry("&k", "<obfuscated>"),
-        Map.entry("&l", "<bold>"),
-        Map.entry("&m", "<strikethrough>"),
-        Map.entry("&n", "<underlined>"),
-        Map.entry("&o", "<italic>"),
-        Map.entry("&r", "<reset>")
-    );
     private final List<TagResolver> minimessagePlaceholders = new ArrayList<>(); // Store MiniMessage placeholders to be applied
     private String text;
 
@@ -120,7 +68,7 @@ public class ColorParser {
      * @return the component
      */
     public @NotNull Component build() {
-        return mm.deserialize(getText(), this.minimessagePlaceholders.toArray(new TagResolver[0]));
+        return ColorHolder.getInstance().getMiniMessage().deserialize(getText(), this.minimessagePlaceholders.toArray(new TagResolver[0]));
     }
 
     /**
@@ -131,11 +79,11 @@ public class ColorParser {
      */
     public @NotNull ColorParser parseLegacy() {
         String textParsed = getText();
-        final @NotNull Matcher matcher = legacyRegex.matcher(textParsed);
+        final @NotNull Matcher matcher = ColorHolder.getInstance().getLegacyRegex().matcher(textParsed);
 
         while (matcher.find()) {
             final String match = matcher.group();
-            textParsed = textParsed.replace(match, legacyToMiniMessage.getOrDefault(match, match));
+            textParsed = textParsed.replace(match, ColorHolder.getInstance().getLegacyToMiniMessage().getOrDefault(match, match));
         }
 
         setText(textParsed);
