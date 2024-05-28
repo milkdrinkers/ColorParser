@@ -16,6 +16,9 @@ jobs:
   tests:
     name: Run Tests
     uses: ./.github/workflows/tests.yml
+    secrets: inherit
+    with:
+      publish_snapshot: false
   release:
     name: Create Release
     strategy:
