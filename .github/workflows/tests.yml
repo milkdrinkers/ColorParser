@@ -1,0 +1,56 @@
+name: Run Tests
+
+on:
+  push:
+    branches-ignore: # Tests are triggered from release workflow
+      - 'main'
+      - 'master'
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: write
+  discussions: write
+  pull-requests: write
+
+jobs:
+  test-build:
+    name: Test Build
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java: [8]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Setup JDK
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ matrix.java }}
+
+      # Setup Gradle & Verify wrapper
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      # Makes the next semantic tag variable available for use in workflow
+      - uses: jveldboom/action-conventional-versioning@v1
+        id: version
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          default-bump: patch
+
+      # Build with Gradle
+      - name: Build with Gradle
+        run: ./gradlew clean build -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
+
+      # Upload build results
+      - name: Upload build results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build ${{ steps.version.outputs.version-with-prefix }}-SNAPSHOT-${{ github.run_number }}
+          path: ${{ github.workspace }}/build/libs/
+          retention-days: 3

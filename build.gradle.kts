@@ -1,3 +1,5 @@
+import java.time.Instant
+
 plugins {
     `java-library`
     `maven-publish`
@@ -65,6 +67,18 @@ tasks {
     }
 }
 
+// Apply custom version arg
+val versionArg = if (hasProperty("customVersion"))
+    (properties["customVersion"] as String).uppercase() // Uppercase version string
+else
+    "${project.version}-SNAPSHOT-${Instant.now().epochSecond}" // Append snapshot to version
+
+// Strip prefixed "v" from version tag
+project.version = if (versionArg.first().equals('v', true))
+    versionArg.substring(1)
+else
+    versionArg.uppercase()
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -72,7 +86,43 @@ publishing {
             artifactId = "colorparser"
             version = "${project.version}"
 
+            pom {
+                name.set("ColorParser")
+                description.set(rootProject.description.orEmpty())
+                url.set("https://github.com/milkdrinkers/ColorParser")
+                licenses {
+                    license {
+                        name.set("GNU General Public License version 3")
+                        url.set("https://opensource.org/license/gpl-3-0/")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("darksaid98")
+                        name.set("darksaid98")
+                        organization.set("Milkdrinkers")
+                        organizationUrl.set("https://github.com/milkdrinkers")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/milkdrinkers/ColorParser.git")
+                    developerConnection.set("scm:git:ssh://github.com:milkdrinkers/ColorParser.git")
+                    url.set("https://github.com/milkdrinkers/ColorParser")
+                }
+            }
+
             from(components["java"])
+        }
+    }
+
+    repositories {
+        maven {
+            name = "milkdrinkers"
+            url = uri("https://maven.athyrium.eu/releases")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
         }
     }
 }
