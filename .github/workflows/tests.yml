@@ -45,12 +45,7 @@ jobs:
 
       # Build with Gradle
       - name: Build with Gradle
-        run: ./gradlew clean build -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
-
-      # Upload build results
-      - name: Upload build results
-        uses: actions/upload-artifact@v4
-        with:
-          name: Build ${{ steps.version.outputs.version-with-prefix }}-SNAPSHOT-${{ github.run_number }}
-          path: ${{ github.workspace }}/build/libs/
-          retention-days: 3
+        run: ./gradlew clean build publishAllPublicationsToSnapshotsRepository -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_NAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_SECRET }}

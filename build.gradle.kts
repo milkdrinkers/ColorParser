@@ -117,8 +117,16 @@ publishing {
 
     repositories {
         maven {
-            name = "milkdrinkers"
+            name = "releases"
             url = uri("https://maven.athyrium.eu/releases")
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+        maven {
+            name = "snapshots"
+            url = uri("https://maven.athyrium.eu/snapshots")
             credentials {
                 username = System.getenv("MAVEN_USERNAME")
                 password = System.getenv("MAVEN_PASSWORD")
