@@ -22,56 +22,59 @@ import org.jetbrains.annotations.NotNull;
  * Builder Utility for easily turning strings into Adventure Components.
  */
 public class ColorParser {
-    private static final MiniMessage mm = MiniMessage.miniMessage();
-    private static final Pattern legacyRegex = Pattern.compile("[§&][0-9a-fk-or]");
-    private static final Map<String, String> legacyToMiniMessage;
+    // Static values
+    private static final MiniMessage MINIMESSAGE = MiniMessage.miniMessage();
+    private static final Pattern LEGACY_REGEX = Pattern.compile("[§&][0-9a-fk-or]");
+    private static final Map<String, String> LEGACY_TO_MINIMESSAGE;
     static {
-        legacyToMiniMessage = new HashMap<>();
-        legacyToMiniMessage.put("§0", "<black>");
-        legacyToMiniMessage.put("§1", "<dark_blue>");
-        legacyToMiniMessage.put("§2", "<dark_green>");
-        legacyToMiniMessage.put("§3", "<dark_aqua>");
-        legacyToMiniMessage.put("§4", "<dark_red>");
-        legacyToMiniMessage.put("§5", "<dark_purple>");
-        legacyToMiniMessage.put("§6", "<gold>");
-        legacyToMiniMessage.put("§7", "<gray>");
-        legacyToMiniMessage.put("§8", "<dark_gray>");
-        legacyToMiniMessage.put("§9", "<blue>");
-        legacyToMiniMessage.put("§a", "<green>");
-        legacyToMiniMessage.put("§b", "<aqua>");
-        legacyToMiniMessage.put("§c", "<red>");
-        legacyToMiniMessage.put("§d", "<light_purple>");
-        legacyToMiniMessage.put("§e", "<yellow>");
-        legacyToMiniMessage.put("§f", "<white>");
-        legacyToMiniMessage.put("§k", "<obfuscated>");
-        legacyToMiniMessage.put("§l", "<bold>");
-        legacyToMiniMessage.put("§m", "<strikethrough>");
-        legacyToMiniMessage.put("§n", "<underlined>");
-        legacyToMiniMessage.put("§o", "<italic>");
-        legacyToMiniMessage.put("§r", "<reset>");
-        legacyToMiniMessage.put("&0", "<black>");
-        legacyToMiniMessage.put("&1", "<dark_blue>");
-        legacyToMiniMessage.put("&2", "<dark_green>");
-        legacyToMiniMessage.put("&3", "<dark_aqua>");
-        legacyToMiniMessage.put("&4", "<dark_red>");
-        legacyToMiniMessage.put("&5", "<dark_purple>");
-        legacyToMiniMessage.put("&6", "<gold>");
-        legacyToMiniMessage.put("&7", "<gray>");
-        legacyToMiniMessage.put("&8", "<dark_gray>");
-        legacyToMiniMessage.put("&9", "<blue>");
-        legacyToMiniMessage.put("&a", "<green>");
-        legacyToMiniMessage.put("&b", "<aqua>");
-        legacyToMiniMessage.put("&c", "<red>");
-        legacyToMiniMessage.put("&d", "<light_purple>");
-        legacyToMiniMessage.put("&e", "<yellow>");
-        legacyToMiniMessage.put("&f", "<white>");
-        legacyToMiniMessage.put("&k", "<obfuscated>");
-        legacyToMiniMessage.put("&l", "<bold>");
-        legacyToMiniMessage.put("&m", "<strikethrough>");
-        legacyToMiniMessage.put("&n", "<underlined>");
-        legacyToMiniMessage.put("&o", "<italic>");
-        legacyToMiniMessage.put("&r", "<reset>");
+        LEGACY_TO_MINIMESSAGE = new HashMap<>();
+        LEGACY_TO_MINIMESSAGE.put("§0", "<black>");
+        LEGACY_TO_MINIMESSAGE.put("§1", "<dark_blue>");
+        LEGACY_TO_MINIMESSAGE.put("§2", "<dark_green>");
+        LEGACY_TO_MINIMESSAGE.put("§3", "<dark_aqua>");
+        LEGACY_TO_MINIMESSAGE.put("§4", "<dark_red>");
+        LEGACY_TO_MINIMESSAGE.put("§5", "<dark_purple>");
+        LEGACY_TO_MINIMESSAGE.put("§6", "<gold>");
+        LEGACY_TO_MINIMESSAGE.put("§7", "<gray>");
+        LEGACY_TO_MINIMESSAGE.put("§8", "<dark_gray>");
+        LEGACY_TO_MINIMESSAGE.put("§9", "<blue>");
+        LEGACY_TO_MINIMESSAGE.put("§a", "<green>");
+        LEGACY_TO_MINIMESSAGE.put("§b", "<aqua>");
+        LEGACY_TO_MINIMESSAGE.put("§c", "<red>");
+        LEGACY_TO_MINIMESSAGE.put("§d", "<light_purple>");
+        LEGACY_TO_MINIMESSAGE.put("§e", "<yellow>");
+        LEGACY_TO_MINIMESSAGE.put("§f", "<white>");
+        LEGACY_TO_MINIMESSAGE.put("§k", "<obfuscated>");
+        LEGACY_TO_MINIMESSAGE.put("§l", "<bold>");
+        LEGACY_TO_MINIMESSAGE.put("§m", "<strikethrough>");
+        LEGACY_TO_MINIMESSAGE.put("§n", "<underlined>");
+        LEGACY_TO_MINIMESSAGE.put("§o", "<italic>");
+        LEGACY_TO_MINIMESSAGE.put("§r", "<reset>");
+        LEGACY_TO_MINIMESSAGE.put("&0", "<black>");
+        LEGACY_TO_MINIMESSAGE.put("&1", "<dark_blue>");
+        LEGACY_TO_MINIMESSAGE.put("&2", "<dark_green>");
+        LEGACY_TO_MINIMESSAGE.put("&3", "<dark_aqua>");
+        LEGACY_TO_MINIMESSAGE.put("&4", "<dark_red>");
+        LEGACY_TO_MINIMESSAGE.put("&5", "<dark_purple>");
+        LEGACY_TO_MINIMESSAGE.put("&6", "<gold>");
+        LEGACY_TO_MINIMESSAGE.put("&7", "<gray>");
+        LEGACY_TO_MINIMESSAGE.put("&8", "<dark_gray>");
+        LEGACY_TO_MINIMESSAGE.put("&9", "<blue>");
+        LEGACY_TO_MINIMESSAGE.put("&a", "<green>");
+        LEGACY_TO_MINIMESSAGE.put("&b", "<aqua>");
+        LEGACY_TO_MINIMESSAGE.put("&c", "<red>");
+        LEGACY_TO_MINIMESSAGE.put("&d", "<light_purple>");
+        LEGACY_TO_MINIMESSAGE.put("&e", "<yellow>");
+        LEGACY_TO_MINIMESSAGE.put("&f", "<white>");
+        LEGACY_TO_MINIMESSAGE.put("&k", "<obfuscated>");
+        LEGACY_TO_MINIMESSAGE.put("&l", "<bold>");
+        LEGACY_TO_MINIMESSAGE.put("&m", "<strikethrough>");
+        LEGACY_TO_MINIMESSAGE.put("&n", "<underlined>");
+        LEGACY_TO_MINIMESSAGE.put("&o", "<italic>");
+        LEGACY_TO_MINIMESSAGE.put("&r", "<reset>");
     }
+
+    // Normal data
     private final List<TagResolver> minimessagePlaceholders = new ArrayList<>(); // Store MiniMessage placeholders to be applied
     private String text;
 
@@ -122,7 +125,7 @@ public class ColorParser {
      * @return the component
      */
     public @NotNull Component build() {
-        return mm.deserialize(getText(), this.minimessagePlaceholders.toArray(new TagResolver[0]));
+        return MINIMESSAGE.deserialize(getText(), this.minimessagePlaceholders.toArray(new TagResolver[0]));
     }
 
     /**
@@ -133,11 +136,11 @@ public class ColorParser {
      */
     public @NotNull ColorParser parseLegacy() {
         String textParsed = getText();
-        final @NotNull Matcher matcher = legacyRegex.matcher(textParsed);
+        final @NotNull Matcher matcher = LEGACY_REGEX.matcher(textParsed);
 
         while (matcher.find()) {
             final String match = matcher.group();
-            textParsed = textParsed.replace(match, legacyToMiniMessage.getOrDefault(match, match));
+            textParsed = textParsed.replace(match, LEGACY_TO_MINIMESSAGE.getOrDefault(match, match));
         }
 
         setText(textParsed);
