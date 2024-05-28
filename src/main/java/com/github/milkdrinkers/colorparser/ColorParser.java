@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.intellij.lang.annotations.Subst;
+import org.jetbrains.annotations.ApiStatus.ScheduledForRemoval;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -92,6 +93,7 @@ public class ColorParser {
      * Instantiates a new color parser object.
      */
     @Deprecated
+    @ScheduledForRemoval
     public ColorParser(String text) {
         setText(text);
     }
@@ -105,6 +107,7 @@ public class ColorParser {
      * Instantiates a new color parser object.
      */
     @Deprecated
+    @ScheduledForRemoval
     public static @NotNull ColorParser text(String text) {
         return ColorParser.of(text);
     }
