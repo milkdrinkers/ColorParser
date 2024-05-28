@@ -1,6 +1,7 @@
 package com.github.milkdrinkers.colorparser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -21,55 +22,56 @@ import org.jetbrains.annotations.NotNull;
  * Builder Utility for easily turning strings into Adventure Components.
  */
 public class ColorParser {
-
     private static final MiniMessage mm = MiniMessage.miniMessage();
     private static final Pattern legacyRegex = Pattern.compile("[§&][0-9a-fk-or]");
-    private static final Map<String, String> legacyToMiniMessage = Map.ofEntries(
-        Map.entry("§0", "<black>"),
-        Map.entry("§1", "<dark_blue>"),
-        Map.entry("§2", "<dark_green>"),
-        Map.entry("§3", "<dark_aqua>"),
-        Map.entry("§4", "<dark_red>"),
-        Map.entry("§5", "<dark_purple>"),
-        Map.entry("§6", "<gold>"),
-        Map.entry("§7", "<gray>"),
-        Map.entry("§8", "<dark_gray>"),
-        Map.entry("§9", "<blue>"),
-        Map.entry("§a", "<green>"),
-        Map.entry("§b", "<aqua>"),
-        Map.entry("§c", "<red>"),
-        Map.entry("§d", "<light_purple>"),
-        Map.entry("§e", "<yellow>"),
-        Map.entry("§f", "<white>"),
-        Map.entry("§k", "<obfuscated>"),
-        Map.entry("§l", "<bold>"),
-        Map.entry("§m", "<strikethrough>"),
-        Map.entry("§n", "<underlined>"),
-        Map.entry("§o", "<italic>"),
-        Map.entry("§r", "<reset>"),
-        Map.entry("&0", "<black>"),
-        Map.entry("&1", "<dark_blue>"),
-        Map.entry("&2", "<dark_green>"),
-        Map.entry("&3", "<dark_aqua>"),
-        Map.entry("&4", "<dark_red>"),
-        Map.entry("&5", "<dark_purple>"),
-        Map.entry("&6", "<gold>"),
-        Map.entry("&7", "<gray>"),
-        Map.entry("&8", "<dark_gray>"),
-        Map.entry("&9", "<blue>"),
-        Map.entry("&a", "<green>"),
-        Map.entry("&b", "<aqua>"),
-        Map.entry("&c", "<red>"),
-        Map.entry("&d", "<light_purple>"),
-        Map.entry("&e", "<yellow>"),
-        Map.entry("&f", "<white>"),
-        Map.entry("&k", "<obfuscated>"),
-        Map.entry("&l", "<bold>"),
-        Map.entry("&m", "<strikethrough>"),
-        Map.entry("&n", "<underlined>"),
-        Map.entry("&o", "<italic>"),
-        Map.entry("&r", "<reset>")
-    );
+    private static final Map<String, String> legacyToMiniMessage;
+    static {
+        legacyToMiniMessage = new HashMap<>();
+        legacyToMiniMessage.put("§0", "<black>");
+        legacyToMiniMessage.put("§1", "<dark_blue>");
+        legacyToMiniMessage.put("§2", "<dark_green>");
+        legacyToMiniMessage.put("§3", "<dark_aqua>");
+        legacyToMiniMessage.put("§4", "<dark_red>");
+        legacyToMiniMessage.put("§5", "<dark_purple>");
+        legacyToMiniMessage.put("§6", "<gold>");
+        legacyToMiniMessage.put("§7", "<gray>");
+        legacyToMiniMessage.put("§8", "<dark_gray>");
+        legacyToMiniMessage.put("§9", "<blue>");
+        legacyToMiniMessage.put("§a", "<green>");
+        legacyToMiniMessage.put("§b", "<aqua>");
+        legacyToMiniMessage.put("§c", "<red>");
+        legacyToMiniMessage.put("§d", "<light_purple>");
+        legacyToMiniMessage.put("§e", "<yellow>");
+        legacyToMiniMessage.put("§f", "<white>");
+        legacyToMiniMessage.put("§k", "<obfuscated>");
+        legacyToMiniMessage.put("§l", "<bold>");
+        legacyToMiniMessage.put("§m", "<strikethrough>");
+        legacyToMiniMessage.put("§n", "<underlined>");
+        legacyToMiniMessage.put("§o", "<italic>");
+        legacyToMiniMessage.put("§r", "<reset>");
+        legacyToMiniMessage.put("&0", "<black>");
+        legacyToMiniMessage.put("&1", "<dark_blue>");
+        legacyToMiniMessage.put("&2", "<dark_green>");
+        legacyToMiniMessage.put("&3", "<dark_aqua>");
+        legacyToMiniMessage.put("&4", "<dark_red>");
+        legacyToMiniMessage.put("&5", "<dark_purple>");
+        legacyToMiniMessage.put("&6", "<gold>");
+        legacyToMiniMessage.put("&7", "<gray>");
+        legacyToMiniMessage.put("&8", "<dark_gray>");
+        legacyToMiniMessage.put("&9", "<blue>");
+        legacyToMiniMessage.put("&a", "<green>");
+        legacyToMiniMessage.put("&b", "<aqua>");
+        legacyToMiniMessage.put("&c", "<red>");
+        legacyToMiniMessage.put("&d", "<light_purple>");
+        legacyToMiniMessage.put("&e", "<yellow>");
+        legacyToMiniMessage.put("&f", "<white>");
+        legacyToMiniMessage.put("&k", "<obfuscated>");
+        legacyToMiniMessage.put("&l", "<bold>");
+        legacyToMiniMessage.put("&m", "<strikethrough>");
+        legacyToMiniMessage.put("&n", "<underlined>");
+        legacyToMiniMessage.put("&o", "<italic>");
+        legacyToMiniMessage.put("&r", "<reset>");
+    }
     private final List<TagResolver> minimessagePlaceholders = new ArrayList<>(); // Store MiniMessage placeholders to be applied
     private String text;
 
