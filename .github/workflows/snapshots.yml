@@ -1,0 +1,67 @@
+name: Snapshot
+
+on:
+  push:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  discussions: write
+  pull-requests: write
+
+jobs:
+  tests:
+    name: Tests
+    uses: ./.github/workflows/tests.yml
+  snapshot:
+    name: Build
+    needs: [tests]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java: [8]
+    runs-on: ${{ matrix.os }}
+    steps:
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Build setup
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      # Makes the next semantic tag variable available for use in workflow
+      - uses: jveldboom/action-conventional-versioning@v1
+        id: version
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          default-bump: patch
+
+      # If on main branch, upload snapshot to maven
+      - name: Build with Gradle & Publish to Maven
+        if: contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref)
+        run: ./gradlew clean build publishAllPublicationsToSnapshotsRepository -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_NAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_SECRET }}
+
+      # Else if, upload built jar from push
+      - name: Build with Gradle
+        if: contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref) == false
+        run: ./gradlew clean build -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        if: contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref) == false
+        with:
+          name: Build ${{ steps.version.outputs.version-with-prefix }}-SNAPSHOT-${{ github.run_number }}
+          path: ${{ github.workspace }}/build/libs/
+          retention-days: 3

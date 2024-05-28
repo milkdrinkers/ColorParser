@@ -1,22 +1,8 @@
-name: Run Tests
+name: Tests
 
 on:
-  push:
-    branches-ignore: # Tests are triggered from release workflow
-      - 'main'
-      - 'master'
   workflow_dispatch:
   workflow_call:
-    secrets:
-      MAVEN_NAME:
-        required: false
-      MAVEN_PASSWORD:
-        required: false
-    inputs:
-      publish_snapshot:
-        required: false
-        default: true
-        type: boolean
 
 permissions:
   contents: write
@@ -25,7 +11,7 @@ permissions:
 
 jobs:
   test-build:
-    name: Test Build
+    name: Build
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -53,16 +39,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           default-bump: patch
 
-          
       # Build with Gradle
       - name: Build with Gradle
-        if: ${{ inputs.publish_snapshot == false }}
         run: ./gradlew clean build -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
-          
-      # Build with Gradle
-      - name: Build with Gradle
-        if: ${{ inputs.publish_snapshot == true }}
-        run: ./gradlew clean build publishAllPublicationsToSnapshotsRepository -PcustomVersion=${{ steps.version.outputs.version }}-SNAPSHOT-${{ github.run_number }} --info
-        env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_NAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_SECRET }}

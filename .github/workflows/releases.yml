@@ -1,11 +1,11 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - 'main'
-      - 'master'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -14,34 +14,27 @@ permissions:
 
 jobs:
   tests:
-    name: Run Tests
+    name: Tests
     uses: ./.github/workflows/tests.yml
-    secrets: inherit
-    with:
-      publish_snapshot: false
   release:
-    name: Create Release
+    name: Build
+    needs: [tests]
     strategy:
       matrix:
         os: [ubuntu-latest]
         java: [8]
     runs-on: ${{ matrix.os }}
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
-    needs: [tests]
     steps:
       # Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
-      # Setup JDK
+              
+      # Build setup
       - name: Setup JDK
         uses: ./.github/actions/jdk
         with:
           java-version: ${{ matrix.java }}
 
-      # Setup Gradle & Verify wrapper
       - name: Setup Gradle
         uses: ./.github/actions/gradle
 
@@ -51,14 +44,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           default-bump: patch
-      
-      # Build with Gradle & Publish to Maven repository
-      - name: Build with Gradle
-        run: ./gradlew clean build publishAllPublicationsToReleasesRepository -PcustomVersion=${{ steps.version.outputs.version }}
+
+      # Build and upload to Maven
+      - name: Build with Gradle & Publish to Maven
+        run: ./gradlew clean build publishAllPublicationsToReleasesRepository -PcustomVersion=${{ steps.version.outputs.version }} --info
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_NAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_SECRET }}
-
+            
       # Generate changelog
       - name: Changelog
         uses: ardalanamini/auto-changelog@v4
@@ -91,11 +84,12 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
+          name: ${{ steps.version.outputs.version-with-prefix }}
+          tag_name: ${{ steps.version.outputs.version }}
+          generate_release_notes: false
+          body: ${{ steps.changelog.outputs.changelog }}
           files: |
             ${{ github.workspace }}/build/libs/*
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.version.outputs.version-with-prefix }}
           draft: false
           prerelease: ${{ contains(github.ref_name, '-RC-') }}
-          generate_release_notes: false
-          body: ${{ steps.changelog.outputs.changelog }}
