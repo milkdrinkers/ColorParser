@@ -1,0 +1,118 @@
+name: Stage
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: "The os the workflow shold use"
+        required: false
+        type: string
+        default: ubuntu-latest
+      java:
+        description: "The Java version the workflow should use"
+        required: false
+        type: number
+        default: 21
+
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
+
+jobs:
+  stage-build-snapshot:
+    name: "Build Snapshot"
+    if: github.ref_type != 'tag'
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ inputs.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+        # Get version field in project properties file for snapshot version
+      - name: Get Project Version
+        shell: bash
+        run: |
+          echo "CUSTOM_VERSION=$(grep "^version=" ./gradle.properties | awk -F'=' '{print $2}')-SNAPSHOT-${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Build with Gradle
+        run: ./gradlew build -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
+
+      - name: Upload Snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: Snapshot-${{ github.run_number }}
+          path: ${{ github.workspace }}/build/libs/
+          retention-days: 7
+
+  stage-version:
+    name: "Update Project Version"
+    runs-on: ${{ inputs.os }}
+    if: github.ref_type == 'tag'
+    steps:
+      # Checkout repository
+      - name: Checkout Repository
+        if: contains(github.ref_name, '-RC-') == false
+        uses: actions/checkout@v4
+
+      # Update version field in project properties file
+      - name: Update Gradle Project Version
+        if: contains(github.ref_name, '-RC-') == false
+        shell: bash
+        run: |
+          sed -i -b 's/^version=.*/version=${{ github.ref_name }}/' ./gradle.properties
+
+      # Commit and push updated version properties file
+      - name: Update repository
+        if: contains(github.ref_name, '-RC-') == false
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: bump version to v${{ github.ref_name  }}"
+          branch: ${{ github.event.repository.default_branch }}
+
+  stage-build-release:
+    name: "Build Release"
+    needs: stage-version
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: ./.github/actions/jdk
+        with:
+          java-version: ${{ inputs.java }}
+
+      - name: Setup Gradle
+        uses: ./.github/actions/gradle
+
+      - name: Set Version Environment Variable
+        run: |
+          echo "CUSTOM_VERSION=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Build with Gradle and publish
+        run: ./gradlew build publish deployAll -PaltVer=${{ env.CUSTOM_VERSION }} -x test --info
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          GPG_KEY: ${{ secrets.MAVEN_CENTRAL_GPG_SECRET_KEY }}
+          GPG_PASSWORD: ${{ secrets.MAVEN_CENTRAL_GPG_SECRET_KEY_PASSWORD }}
+
+      - name: Generate Build Provenance Attestations
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: "${{ github.workspace }}/build/libs/*"
+
+      - name: Upload Snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release
+          path: ${{ github.workspace }}/build/libs/
+          retention-days: 7

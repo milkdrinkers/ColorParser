@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "ci:"
+    target-branch: "main"
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "build:"
+    target-branch: "main"
+    groups:
+      "org.flywaydb":
+        patterns:
+          - "org.flywaydb*"
+      "org.jooq":
+        patterns:
+          - "org.jooq*"
+      "net.kyori":
+        patterns:
+          - "net.kyori*"
