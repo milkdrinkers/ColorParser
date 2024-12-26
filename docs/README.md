@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/github/license/milkdrinkers/ColorParser?color=blue&style=flat-square" alt="license"/>
     <a href="https://maven.athyrium.eu/#/releases/com/github/milkdrinkers/colorparser"><img alt="Maven metadata URL" src="https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.athyrium.eu%2Freleases%2Fcom%2Fgithub%2Fmilkdrinkers%2Fcolorparser%2Fmaven-metadata.xml&style=flat-square&label=Maven Version&color=44cc11"></a>
     <a href="https://milkdrinkers.github.io/ColorParser/introduction"><img src="https://img.shields.io/badge/Documentation-900C3F?style=flat-square" alt="documentation"/></a>
-    <a href="https://maven.athyrium.eu/javadoc/releases/com/github/milkdrinkers/colorparser/latest"><img src="https://img.shields.io/badge/Javadoc-8A2BE2?style=flat-square" alt="javadoc"/></a>
+    <a href="https://javadoc.io/doc/io.github.milkdrinkers/colorparser"><img src="https://img.shields.io/badge/Javadoc-8A2BE2?style=flat-square" alt="javadoc"/></a>
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/milkdrinkers/colorparser?style=flat-square&label=Last%20Commit">
 </p>
 
@@ -19,7 +19,7 @@ A simple utility library for easily adding [MiniMessage](https://docs.advntr.dev
 ## Useful Links
 
 * **Documentation** - [Link](https://milkdrinkers.github.io/ColorParser/introduction)
-* **JavaDoc** - [Link](https://maven.athyrium.eu/javadoc/releases/com/github/milkdrinkers/colorparser/latest)
+* **JavaDoc** - [Link](https://javadoc.io/doc/io.github.milkdrinkers/colorparser)
 * **MiniMessage Formatting** - [Link](https://docs.advntr.dev/minimessage/format.html)
 * **MiniMessage Previewer** - [Link](https://webui.advntr.dev/)
 * **Adventure Documentation** - [Link](https://docs.advntr.dev/index.html)

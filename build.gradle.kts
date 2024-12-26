@@ -2,135 +2,81 @@ import java.time.Instant
 
 plugins {
     `java-library`
-    `maven-publish`
-
+    alias(libs.plugins.maven.deployer) apply false
     eclipse
     idea
 }
 
-group = "com.github.milkdrinkers"
-version = "2.0.0"
-description = ""
+subprojects {
+    apply(plugin = "java-library")
+    apply(plugin = rootProject.libs.plugins.maven.deployer.get().pluginId)
 
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-    withJavadocJar()
-    withSourcesJar()
-}
-
-repositories {
-    mavenCentral()
-
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") {
-        content {
-            includeGroup("org.bukkit")
-            includeGroup("org.spigotmc")
-        }
-    }
-    maven("https://oss.sonatype.org/content/repositories/snapshots") // Required for Spigots Bungeecord dependency
-    maven("https://oss.sonatype.org/content/repositories/central")  // Required for Spigots Bungeecord dependency
-
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") {
-        content { includeGroup("me.clip") }
-    }
-}
-
-dependencies {
-    compileOnly("org.jetbrains:annotations:24.1.0")
-    annotationProcessor("org.jetbrains:annotations:24.1.0")
-
-    api("net.kyori:adventure-api:4.14.0")
-    api("net.kyori:adventure-text-minimessage:4.14.0")
-    api("net.kyori:adventure-text-serializer-gson:4.14.0")
-    api("net.kyori:adventure-text-serializer-legacy:4.14.0")
-    api("net.kyori:adventure-text-serializer-plain:4.14.0")
-
-    compileOnly("org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT")
-
-    compileOnly("me.clip:placeholderapi:2.11.6")
-}
-
-tasks {
-    compileJava {
-        options.encoding = Charsets.UTF_8.name()
-        options.release.set(8)
-    }
-
-    javadoc {
-        isFailOnError = false
-        val options = options as StandardJavadocDocletOptions
-        options.encoding = Charsets.UTF_8.name()
-        options.overview = "src/main/javadoc/overview.html"
-        options.isDocFilesSubDirs = true
-        options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
-        options.use()
-    }
-}
-
-// Apply custom version arg
-val versionArg = if (hasProperty("customVersion"))
-    (properties["customVersion"] as String).uppercase() // Uppercase version string
-else
-    "${project.version}-SNAPSHOT-${Instant.now().epochSecond}" // Append snapshot to version
-
-// Strip prefixed "v" from version tag
-project.version = if (versionArg.first().equals('v', true))
-    versionArg.substring(1)
-else
-    versionArg.uppercase()
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "${rootProject.group}"
-            artifactId = "colorparser"
-            version = "${rootProject.version}"
-
-            pom {
-                name.set("ColorParser")
-                description.set(rootProject.description.orEmpty())
-                url.set("https://github.com/milkdrinkers/ColorParser")
-                licenses {
-                    license {
-                        name.set("GNU General Public License version 3")
-                        url.set("https://opensource.org/license/gpl-3-0/")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("darksaid98")
-                        name.set("darksaid98")
-                        organization.set("Milkdrinkers")
-                        organizationUrl.set("https://github.com/milkdrinkers")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/milkdrinkers/ColorParser.git")
-                    developerConnection.set("scm:git:ssh://github.com:milkdrinkers/ColorParser.git")
-                    url.set("https://github.com/milkdrinkers/ColorParser")
-                }
-            }
-
-            from(components["java"])
-        }
-    }
+    applyCustomVersion()
 
     repositories {
-        maven {
-            name = "releases"
-            url = uri("https://maven.athyrium.eu/releases")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-        maven {
-            name = "snapshots"
-            url = uri("https://maven.athyrium.eu/snapshots")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
+        mavenCentral()
+        maven("https://repo.papermc.io/repository/maven-public/")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        maven("https://oss.sonatype.org/content/repositories/snapshots") // Required for Spigots Bungeecord dependency
+        maven("https://oss.sonatype.org/content/repositories/central") // Required for Spigots Bungeecord dependency
+        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") {
+            content { includeGroup("me.clip") }
         }
     }
+
+    dependencies {
+        compileOnly(rootProject.libs.annotations)
+        annotationProcessor(rootProject.libs.annotations)
+
+        api(rootProject.libs.bundles.adventure)
+
+        compileOnly(rootProject.libs.spigot.api)
+        compileOnly(rootProject.libs.placeholderapi)
+
+        testImplementation(rootProject.libs.annotations)
+        testImplementation(platform(rootProject.libs.junit.bom))
+        testImplementation(rootProject.libs.bundles.junit)
+    }
+
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    tasks {
+        compileJava {
+            options.encoding = Charsets.UTF_8.name()
+            options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
+            options.release.set(8)
+        }
+
+        javadoc {
+            isFailOnError = false
+            val options = options as StandardJavadocDocletOptions
+            options.encoding = Charsets.UTF_8.name()
+            options.overview = "src/main/javadoc/overview.html"
+            options.windowTitle = "${rootProject.name} Javadoc"
+            options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
+            options.addStringOption("Xdoclint:none", "-quiet")
+            options.use()
+        }
+
+        processResources {
+            filteringCharset = Charsets.UTF_8.name()
+        }
+
+        test {
+            useJUnitPlatform()
+            failFast = false
+        }
+    }
+}
+
+fun applyCustomVersion() {
+    // Apply custom version arg or append snapshot version
+    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT-${Instant.now().epochSecond}"
+
+    // Strip prefixed "v" from version tag
+    rootProject.version = (if (ver.first().equals('v', true)) ver.substring(1) else ver.uppercase()).uppercase()
 }

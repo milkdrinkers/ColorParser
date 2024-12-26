@@ -1,4 +1,4 @@
-package com.github.milkdrinkers.colorparser;
+package io.github.milkdrinkers.colorparser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,7 +89,7 @@ public class ColorParser {
      * Instantiates a new Color parser.
      *
      * @param text the string to parse.
-     * @deprecated use {@link com.github.milkdrinkers.colorparser.ColorParser#of(String)}.
+     * @deprecated use {@link ColorParser#of(String)}.
      * Instantiates a new color parser object.
      */
     @Deprecated
@@ -103,7 +103,7 @@ public class ColorParser {
      *
      * @param text the string to parse.
      * @return the color parser object.
-     * @deprecated use {@link com.github.milkdrinkers.colorparser.ColorParser#of(String)}
+     * @deprecated use {@link ColorParser#of(String)}
      * Instantiates a new color parser object.
      */
     @Deprecated
