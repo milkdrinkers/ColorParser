@@ -1,5 +1,5 @@
 [versions]
-adventure = "4.19.0"
+adventure = "4.20.0"
 
 [libraries]
 annotations = "org.jetbrains:annotations:26.0.2"
