@@ -22,6 +22,6 @@ junit = ["junit-jupiter", "junit-platform"]
 adventure = ["adventure-api", "adventure-minimessage", "adventure-gson", "adventure-legacy", "adventure-plain"]
 
 [plugins]
-maven-deployer = "io.deepmedia.tools.deployer:0.17.0"
+maven-deployer = "io.deepmedia.tools.deployer:0.18.0"
 shadow = "com.gradleup.shadow:8.3.6"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
