@@ -2,16 +2,25 @@ import java.time.Instant
 
 plugins {
     `java-library`
-    alias(libs.plugins.maven.deployer) apply false
+    alias(libs.plugins.shadow) apply false
+
     eclipse
     idea
 }
 
+applyCustomVersion()
+
+tasks {
+    jar {
+        enabled = false
+    }
+}
+
 subprojects {
     apply(plugin = "java-library")
-    apply(plugin = rootProject.libs.plugins.maven.deployer.get().pluginId)
 
-    applyCustomVersion()
+    project.version = rootProject.version
+    project.description = rootProject.description
 
     repositories {
         mavenCentral()
@@ -19,6 +28,7 @@ subprojects {
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://oss.sonatype.org/content/repositories/snapshots") // Required for Spigots Bungeecord dependency
         maven("https://oss.sonatype.org/content/repositories/central") // Required for Spigots Bungeecord dependency
+        maven("https://maven.fabricmc.net/")
         maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") {
             content { includeGroup("me.clip") }
         }
@@ -28,10 +38,7 @@ subprojects {
         compileOnly(rootProject.libs.annotations)
         annotationProcessor(rootProject.libs.annotations)
 
-        api(rootProject.libs.bundles.adventure)
-
-        compileOnly(rootProject.libs.spigot.api)
-        compileOnly(rootProject.libs.placeholderapi)
+        compileOnly(rootProject.libs.bundles.adventure)
 
         testImplementation(rootProject.libs.annotations)
         testImplementation(platform(rootProject.libs.junit.bom))
@@ -41,7 +48,6 @@ subprojects {
     java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(21))
         withJavadocJar()
-        withSourcesJar()
     }
 
     tasks {
@@ -75,7 +81,7 @@ subprojects {
 
 fun applyCustomVersion() {
     // Apply custom version arg or append snapshot version
-    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT-${Instant.now().epochSecond}"
+    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT.${Instant.now().epochSecond}"
 
     // Strip prefixed "v" from version tag
     rootProject.version = (if (ver.first().equals('v', true)) ver.substring(1) else ver.uppercase()).uppercase()

@@ -1,47 +1,66 @@
-deployer {
-    release {
-        version.set("${rootProject.version}")
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SonatypeHost
+
+plugins {
+    alias(libs.plugins.publisher)
+}
+
+dependencies {
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.milkdrinkers",
+        artifactId = "colorparser-common",
+        version = version.toString().let { originalVersion ->
+            if (!originalVersion.contains("-SNAPSHOT"))
+                originalVersion
+            else
+                originalVersion.substringBeforeLast("-SNAPSHOT") + "-SNAPSHOT" // Force append just -SNAPSHOT if snapshot version
+        }
+    )
+
+    pom {
+        name.set(rootProject.name + "-Common")
         description.set(rootProject.description.orEmpty())
-    }
+        url.set("https://github.com/milkdrinkers/ColorParser")
+        inceptionYear.set("2025")
 
-    projectInfo {
-        groupId = "io.github.milkdrinkers"
-        artifactId = "colorparser"
-        version = "${rootProject.version}"
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/licenses/MIT")
+                distribution.set("https://opensource.org/licenses/MIT")
+            }
+        }
 
-        name = rootProject.name
-        description = rootProject.description.orEmpty()
-        url = "https://github.com/milkdrinkers/ColorParser"
+        developers {
+            developer {
+                id.set("darksaid98")
+                name.set("darksaid98")
+                url.set("https://github.com/darksaid98")
+                organization.set("Milkdrinkers")
+            }
+        }
 
         scm {
-            connection = "scm:git:git://github.com/milkdrinkers/ColorParser.git"
-            developerConnection = "scm:git:ssh://github.com:milkdrinkers/ColorParser.git"
-            url = "https://github.com/milkdrinkers/ColorParser"
-        }
-
-        license("GNU General Public License Version 3", "https://www.gnu.org/licenses/gpl-3.0.en.html#license-text")
-
-        developer({
-            name.set("darksaid98")
-            email.set("darksaid9889@gmail.com")
-            url.set("https://github.com/darksaid98")
-            organization.set("Milkdrinkers")
-        })
-    }
-
-    content {
-        component {
-            fromJava()
+            url.set("https://github.com/milkdrinkers/ColorParser")
+            connection.set("scm:git:git://github.com/milkdrinkers/ColorParser.git")
+            developerConnection.set("scm:git:ssh://github.com:milkdrinkers/ColorParser.git")
         }
     }
 
-    centralPortalSpec {
-        auth.user.set(secret("MAVEN_USERNAME"))
-        auth.password.set(secret("MAVEN_PASSWORD"))
-    }
+    configure(JavaLibrary(
+        javadocJar = JavadocJar.None(), // We want to use our own javadoc jar
+    ))
 
-    signing {
-        key.set(secret("GPG_KEY"))
-        password.set(secret("GPG_PASSWORD"))
-    }
+    // Publish to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+
+    // Sign all publications
+    signAllPublications()
+
+    // Skip signing for local tasks
+    tasks.withType<Sign>().configureEach { onlyIf { !gradle.taskGraph.allTasks.any { it is PublishToMavenLocal } } }
 }

@@ -4,10 +4,25 @@ on:
   workflow_call:
     inputs:
       os:
-        description: "The os the workflow shold use"
+        description: "The OS the workflow should use"
         required: false
         type: string
         default: ubuntu-latest
+      retention_days:
+        description: "Artifact retention days"
+        required: false
+        type: number
+        default: 7
+      draft:
+        description: "Whether to create a draft release"
+        required: false
+        type: boolean
+        default: false
+      prerelease_suffix:
+        description: "Pattern to identify pre-releases (default: -RC)"
+        required: false
+        type: string
+        default: '-RC'
 
 permissions:
   contents: write
@@ -17,12 +32,40 @@ jobs:
     name: "Release"
     runs-on: ${{ inputs.os }}
     steps:
-      - name: Download Snapshot
+      # Download the release artifacts uploaded in the previous workflow
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
+        id: download
+        continue-on-error: false
         with:
           name: Release
           run-id: ${{ github.event.workflow_run.id }}
           path: "${{ github.workspace }}/tmp/"
+
+      # Verify artifacts were downloaded successfully
+      - name: Verify Artifacts
+        shell: bash
+        run: |
+          # Check if the tmp directory exists and has files
+          if [ ! -d "${{ github.workspace }}/tmp/" ] || [ -z "$(ls -A ${{ github.workspace }}/tmp/)" ]; then
+            echo "::error::No artifacts found in download directory"
+            exit 1
+          fi
+          
+          # List all downloaded artifacts for logging
+          echo "Downloaded artifacts:"
+          ls -la ${{ github.workspace }}/tmp/
+          
+          # Count the number of artifacts
+          ARTIFACT_COUNT=$(ls -1 ${{ github.workspace }}/tmp/ | wc -l)
+          echo "artifact_count=$ARTIFACT_COUNT" >> $GITHUB_OUTPUT
+          
+          if [ "$ARTIFACT_COUNT" -eq 0 ]; then
+            echo "::error::No artifacts found after download"
+            exit 1
+          fi
+          
+          echo "Found $ARTIFACT_COUNT artifacts"
 
       # Generate changelog
       - name: Generate Changelog
@@ -52,16 +95,18 @@ jobs:
           semver: true
           use-github-autolink: true
 
-        # Create release
+      # Create release
       - name: Create Release
         uses: softprops/action-gh-release@v2
+        id: create-release
         with:
           files: |
             ${{ github.workspace }}/tmp/*
-          fail_on_unmatched_files: true
+            ${{ github.workspace }}/tmp/**/build/libs/*.jar
+          fail_on_unmatched_files: false
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ github.ref_name }}
-          draft: false
-          prerelease: ${{ contains(github.ref_name, '-RC-') }}
+          draft: ${{ inputs.draft }}
+          prerelease: ${{ contains(github.ref_name, inputs.prerelease_suffix) }}
           generate_release_notes: false
           body: ${{ steps.changelog.outputs.changelog }}

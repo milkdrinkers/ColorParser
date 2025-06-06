@@ -1,16 +1,32 @@
 [versions]
-adventure = "4.19.0"
+adventure = "4.21.0"
+adventure-platform = "4.4.0"
 
 [libraries]
 annotations = "org.jetbrains:annotations:26.0.2"
-paper-api = "io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT"
+
+paper-api = "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
 spigot-api = "org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT"
+fabric-api = "org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT"
+velocity-api = "com.velocitypowered:velocity-api:3.0.0-SNAPSHOT"
+sponge-api7 = "org.spongepowered:spongeapi:7.4.0"
+sponge-api8 = "org.spongepowered:spongeapi:8.2.0"
+sponge-api9 = "org.spongepowered:spongeapi:9.0.0"
+sponge-api10 = "org.spongepowered:spongeapi:10.0.0"
+sponge-api11 = "org.spongepowered:spongeapi:11.0.0"
+sponge-api12 = "org.spongepowered:spongeapi:12.0.0"
+sponge-api13 = "org.spongepowered:spongeapi:13.0.0"
+
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 adventure-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
 adventure-legacy = { module = "net.kyori:adventure-text-serializer-legacy", version.ref = "adventure" }
 adventure-plain = { module = "net.kyori:adventure-text-serializer-plain", version.ref = "adventure" }
+adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }
+adventure-platform-bungeecord = { module = "net.kyori:adventure-platform-bungeecord", version.ref = "adventure-platform" }
+
 placeholderapi = "me.clip:placeholderapi:2.11.6"
+miniplaceholders = "io.github.miniplaceholders:miniplaceholders-api:2.0.0"
 
 # Testing
 junit-bom = "org.junit:junit-bom:5.12.1"
@@ -22,6 +38,6 @@ junit = ["junit-jupiter", "junit-platform"]
 adventure = ["adventure-api", "adventure-minimessage", "adventure-gson", "adventure-legacy", "adventure-plain"]
 
 [plugins]
-maven-deployer = "io.deepmedia.tools.deployer:0.17.0"
+publisher = "com.vanniktech.maven.publish:0.32.0"
 shadow = "com.gradleup.shadow:8.3.6"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
