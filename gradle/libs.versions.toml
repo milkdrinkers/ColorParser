@@ -29,7 +29,7 @@ placeholderapi = "me.clip:placeholderapi:2.11.6"
 miniplaceholders = "io.github.miniplaceholders:miniplaceholders-api:2.0.0"
 
 # Testing
-junit-bom = "org.junit:junit-bom:5.12.1"
+junit-bom = "org.junit:junit-bom:5.13.0"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 
