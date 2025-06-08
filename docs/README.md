@@ -183,3 +183,12 @@ We also ask that you adhere to our [Contributor Code of Conduct](CODE_OF_CONDUCT
 ## 📝 Licensing
 
 You can find the license the source code and all assets are under [here](../LICENSE). Additionally, contributors agree to the Contributor License Agreement \(*CLA*\) found [here](CONTRIBUTOR_LICENSE_AGREEMENT.md).
+
+---
+
+## ❤️ Acknowledgments
+
+- [**Adventure:**](https://github.com/KyoriPowered/adventure) *The creator and contributors of [_Kyori Adventure_](https://github.com/KyoriPowered/adventure) for creating and maintaining the adventure collection of libraries.*
+- [**CubBossa:**](https://github.com/CubBossa) *For their excellent translations library [_TinyTranslations_](https://github.com/CubBossa/TinyTranslations) from which many of the ideas for new default tags were inspired.*
+- [**4drian3d:**](https://github.com/4drian3d) *For creating and maintaining the [_MiniPlaceholders_](https://github.com/MiniPlaceholders/MiniPlaceholders) plugin/mod providing placeholder support on multiple platforms.*
+- [**extendedclip & contributors:**](https://github.com/PlaceholderAPI/PlaceholderAPI/graphs/contributors) *For creating and maintaining [_PlaceholderAPI_](https://github.com/placeholderapi/placeholderapi/) providing placeholder support on Bukkit based platforms.*
