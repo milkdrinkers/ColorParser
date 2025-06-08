@@ -15,7 +15,7 @@
     </a>
     <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/milkdrinkers/ColorParser/ci.yml?style=for-the-badge&labelColor=141417">
     <a href="https://github.com/milkdrinkers/ColorParser/issues">
-        <img alt="GitHub Issues" src="https://img.shields.io/github/iss[README2.md](README2.md)ues/milkdrinkers/ColorParser?style=for-the-badge&labelColor=141417">
+        <img alt="GitHub Issues" src="https://img.shields.io/github/issues/milkdrinkers/ColorParser?style=for-the-badge&labelColor=141417">
     </a>
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/milkdrinkers/ColorParser?style=for-the-badge&labelColor=141417">
 </p>
