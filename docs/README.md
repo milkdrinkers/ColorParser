@@ -48,6 +48,7 @@ A simple utility library for adding [MiniMessage](https://docs.advntr.dev/minime
 | Bukkit   | ✅ All versions                         | ❌ Not supported | -                                                                    |
 | Paper    | ✅ All versions                         | ✅ 1.19.4+ | MiniPlaceholders requires Paper 1.19.4 or higher                     |
 | Velocity | ❌ Not supported (Use MiniPlaceholders) | ✅ All versions | MiniPlaceholders can provide PlaceholderAPI placeholders on Velocity |
+| Sponge   | ❌ Not supported (Use MiniPlaceholders) | ✅ All versions | -                                                                    |
 
 ### Version Matrix
 
@@ -57,6 +58,7 @@ A simple utility library for adding [MiniMessage](https://docs.advntr.dev/minime
 | Paper 1.16.5 - 1.19.3 | ✅ | ❌ |
 | Paper 1.19.4+         | ✅ | ✅ |
 | Velocity 3.0.0+       | ❌ | ✅ |
+| Sponge 8+             | ❌ | ✅ |
 
 ## ❓ Why Make This?
 
@@ -70,7 +72,7 @@ Trying to provide consistent PlaceholderAPI and MiniPlaceholders support, backwa
 
 Please read the full installation instructions in the [documentation here](https://milkdrinkers.athyrium.eu/colorparser/installation).
 
-The `paper`, `velocity` & `bukkit` modules transitively include `common`. Additionally you should shade the library into your plugin jar.
+The `paper`, `velocity`, `bukkit` & `sponge` modules transitively include `common`. Additionally you should shade the library into your plugin jar.
 
 <details>
 <summary>Gradle Kotlin DSL</summary>
