@@ -18,4 +18,10 @@ include(
     "bukkit",
     "paper",
     "velocity",
+    "sponge:sponge8",
+    "sponge:sponge9",
+    "sponge:sponge10",
+    "sponge:sponge11",
+    "sponge:sponge12",
+    "sponge:sponge13",
 )
