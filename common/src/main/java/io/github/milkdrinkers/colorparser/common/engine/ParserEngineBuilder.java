@@ -57,6 +57,7 @@ public abstract class ParserEngineBuilder<ColorParser extends ComponentBuilder<C
                         new ChoiceResolver(),
                         new TrimResolver(),
                         new LighterResolver(),
+                        new DarkerResolver(),
                         new SmallcapsResolver()
                     ).build()
                 );
