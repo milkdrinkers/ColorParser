@@ -26,7 +26,7 @@ adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", ve
 adventure-platform-bungeecord = { module = "net.kyori:adventure-platform-bungeecord", version.ref = "adventure-platform" }
 
 placeholderapi = "me.clip:placeholderapi:2.11.6"
-miniplaceholders = "io.github.miniplaceholders:miniplaceholders-api:2.0.0"
+miniplaceholders = "io.github.miniplaceholders:miniplaceholders-api:2.3.0"
 
 # Testing
 junit-bom = "org.junit:junit-bom:5.13.0"
