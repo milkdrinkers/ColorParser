@@ -50,29 +50,36 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     }
 
     /**
-     * Creates and adds a placeholder tag that will be parsed in the final {@link Component}.
+     * Creates and adds a placeholder tag that will be parsed during {@link #build()}.
      *
      * @param key   The placeholder tag name like <code>player_name</code>
      * @param value The value of this tag, a unparsed string like: <code>{@literal "<gold><bold>some text here..."}</code>
      * @return The current builder instance
-     * @apiNote The value is parsed into a {@link Component} using the same {@link ParserEngine} instance as this method.
+     * @apiNote The literal {@link String} value is inserted into the MiniMessage content and parsed along with the rest of the content in {@link #build()}.
      * @since 4.0.0
+     * @implNote Uses {@link Placeholder#parsed(String, String)}
      */
     @SuppressWarnings("unchecked")
     @NotNull
     public ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull String value) {
-        with(key, getEngine().parse(value).legacy()); // Use same engine and options to build this component
+        placeholders.add(
+            Placeholder.parsed(
+                key,
+                value
+            )
+        );
 
         return (ColorParser) this;
     }
 
     /**
-     * Creates and adds a placeholder tag that will be parsed in the final {@link Component}.
+     * Creates and adds a placeholder tag that inserts a {@link Component} from the {@link ColorParser}. The value is parsed immediately, before {@link #build()} is called.
      *
      * @param key   The placeholder tag name like <code>player_name</code>
-     * @param value The value of this tag, an unbuilt {@link ColorParser} instance
+     * @param value The value of this tag, an unbuilt {@link ColorParser} instance which is built immediately
      * @return The current builder instance
      * @since 4.0.0
+     * @implNote Uses {@link Placeholder#component(String, ComponentLike)}
      */
     @SuppressWarnings({"unchecked", "UnusedReturnValue"})
     @NotNull
@@ -88,12 +95,13 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     }
 
     /**
-     * Creates and adds a placeholder tag that will be parsed in the final {@link Component}.
+     * Creates and adds a placeholder tag that inserts a {@link Component}. The value is parsed immediately, before {@link #build()} is called.
      *
      * @param key   The placeholder tag name like <code>player_name</code>
      * @param value The value of this tag, an Adventure {@link ComponentLike}
      * @return The current builder instance
      * @since 4.0.0
+     * @implNote Uses {@link Placeholder#component(String, ComponentLike)}
      */
     @SuppressWarnings("unchecked")
     @NotNull
