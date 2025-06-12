@@ -33,8 +33,8 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     private final @NotNull Engine engine;
     private String content;
     private boolean parseLegacy;
-    private final List<TagResolver> placeholders = new ArrayList<>();
-    private final List<TagResolver> miscTagResolvers = new ArrayList<>();
+    private final List<TagResolver> placeholders = new ArrayList<>(8);
+    private final List<TagResolver> miscTagResolvers = new ArrayList<>(4);
 
     /**
      * Creates a new ComponentBuilder with the given engine and content.
