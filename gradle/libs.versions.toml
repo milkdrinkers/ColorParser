@@ -1,6 +1,7 @@
 [versions]
 adventure = "4.21.0"
 adventure-platform = "4.4.0"
+jmh = "1.37"
 
 [libraries]
 annotations = "org.jetbrains:annotations:26.0.2"
@@ -34,11 +35,18 @@ junit-bom = "org.junit:junit-bom:5.13.1"
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 
+# Benchmarking
+jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh" }
+jmh-generator = { module = "org.openjdk.jmh:jmh-generator-annprocess", version.ref = "jmh" }
+jmh-bytecode = { module = "org.openjdk.jmh:jmh-generator-bytecode", version.ref = "jmh" }
+
 [bundles]
 junit = ["junit-jupiter", "junit-platform"]
+jmh = ["jmh-core", "jmh-generator", "jmh-bytecode"]
 adventure = ["adventure-api", "adventure-minimessage", "adventure-gson", "adventure-legacy", "adventure-plain"]
 
 [plugins]
+jmh = "me.champeau.jmh:0.7.3"
 publisher = "com.vanniktech.maven.publish:0.32.0"
 shadow = "com.gradleup.shadow:8.3.6"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"

@@ -1,12 +1,45 @@
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
+import me.champeau.jmh.JMHPlugin
+import me.champeau.jmh.JmhParameters
 
 plugins {
+    alias(libs.plugins.jmh)
     alias(libs.plugins.publisher)
 }
 
+plugins.withType<JMHPlugin> {
+    extensions.configure(JmhParameters::class) {
+        jmhVersion = libs.versions.jmh.get()
+    }
+    tasks.compileJmhJava {
+        dependsOn(tasks.compileTestJava, tasks.processTestResources) // avoid implicit task dependencies
+    }
+    tasks.named(JMHPlugin.getJMH_TASK_COMPILE_GENERATED_CLASSES_NAME(), JavaCompile::class) {
+        classpath += configurations.getByName(JavaPlugin.COMPILE_CLASSPATH_CONFIGURATION_NAME).incoming.files
+    }
+}
+
 dependencies {
+    jmh(rootProject.libs.bundles.jmh)
+}
+
+tasks {
+    jmh {
+        jmhVersion.set(rootProject.libs.jmh.core.get().version)
+
+        benchmarkMode.set(listOf("SampleTime"))
+        fork.set(2)
+        warmupIterations.set(5)
+        iterations.set(5)
+        warmup.set("1s")
+        timeOnIteration.set("1s")
+        timeUnit.set("us")
+        resultFormat.set("JSON")
+
+        failOnError.set(false)
+    }
 }
 
 mavenPublishing {
