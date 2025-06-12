@@ -195,10 +195,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @NotNull
     public Component build() {
-        String text = content;
-
-        if (parseLegacy)
-            text = getEngine().getLegacyColorsProcessor().process(text);
+        final String text = parseLegacy ? getEngine().getLegacyColorsProcessor().process(content) : content;
 
         // Merge all custom tag resolvers into a single array
         final TagResolver[] resolvers = Stream.concat(
