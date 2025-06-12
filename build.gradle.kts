@@ -40,9 +40,11 @@ subprojects {
 
         compileOnly(rootProject.libs.bundles.adventure)
 
-        testImplementation(rootProject.libs.annotations)
         testImplementation(platform(rootProject.libs.junit.bom))
         testImplementation(rootProject.libs.bundles.junit)
+        testImplementation(rootProject.libs.annotations)
+        testImplementation(rootProject.libs.bundles.adventure)
+        testImplementation(rootProject.libs.adventure.ansi)
     }
 
     java {
@@ -74,7 +76,7 @@ subprojects {
 
         test {
             useJUnitPlatform()
-            failFast = false
+            failFast = true
         }
     }
 }
