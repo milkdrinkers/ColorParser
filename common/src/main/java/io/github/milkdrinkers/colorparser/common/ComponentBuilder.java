@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -126,6 +127,34 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     @NotNull
     public ColorParser with(@NotNull TagResolver resolver) {
         placeholders.add(resolver);
+        return (ColorParser) this;
+    }
+
+    /**
+     * Adds placeholder tags that will be present in the final {@link Component}.
+     *
+     * @param resolvers The tag resolvers to add
+     * @return The current builder instance
+     * @since 4.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public ColorParser with(@NotNull Collection<TagResolver> resolvers) {
+        placeholders.addAll(resolvers);
+        return (ColorParser) this;
+    }
+
+    /**
+     * Adds placeholder tags that will be present in the final {@link Component}.
+     *
+     * @param resolvers The tag resolvers to add
+     * @return The current builder instance
+     * @since 4.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public ColorParser with(@NotNull TagResolver... resolvers) {
+        Collections.addAll(placeholders, resolvers);
         return (ColorParser) this;
     }
 
