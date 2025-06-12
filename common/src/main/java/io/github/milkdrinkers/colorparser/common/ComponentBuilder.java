@@ -198,13 +198,14 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
         final String text = parseLegacy ? getEngine().getLegacyColorsProcessor().process(content) : content;
 
         // Merge all custom tag resolvers into a single array
-        final TagResolver[] resolvers = Stream.concat(
-            placeholders.stream(),
-            miscTagResolvers.stream()
-        ).toArray(TagResolver[]::new);
+        final int totalResolvers = placeholders.size() + miscTagResolvers.size();
+        final TagResolver[] resolvers = new TagResolver[totalResolvers];
 
-        // Parse the final string to a Component
-        return getEngine().getMiniMessage().deserialize(text, resolvers);
+        System.arraycopy(placeholders.toArray(new TagResolver[0]), 0, resolvers, 0, placeholders.size());
+        System.arraycopy(miscTagResolvers.toArray(new TagResolver[0]), 0, resolvers, placeholders.size(), miscTagResolvers.size());
+
+
+        return getEngine().getMiniMessage().deserialize(text, resolvers); // Parse the final string to a Component
     }
 
     /**
