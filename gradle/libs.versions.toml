@@ -47,6 +47,6 @@ adventure = ["adventure-api", "adventure-minimessage", "adventure-gson", "advent
 
 [plugins]
 jmh = "me.champeau.jmh:0.7.3"
-publisher = "com.vanniktech.maven.publish:0.32.0"
+publisher = "com.vanniktech.maven.publish:0.33.0"
 shadow = "com.gradleup.shadow:8.3.6"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
