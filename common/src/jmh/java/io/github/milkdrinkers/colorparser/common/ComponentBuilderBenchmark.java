@@ -1,8 +1,8 @@
 package io.github.milkdrinkers.colorparser.common;
 
 import io.github.milkdrinkers.colorparser.common.mock.MockComponentBuilder;
+import io.github.milkdrinkers.colorparser.common.mock.engine.MockBuilder;
 import io.github.milkdrinkers.colorparser.common.mock.engine.MockParserEngine;
-import io.github.milkdrinkers.colorparser.common.mock.engine.MockParserEngineBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -25,7 +25,7 @@ public class ComponentBuilderBenchmark {
 
     @Setup(Level.Trial)
     public void setupTrial() {
-        engine = new MockParserEngineBuilder().build();
+        engine = new MockBuilder().build();
         reusableBuilder = engine.parse(SIMPLE_CONTENT);
 
         // Pre-create tag resolvers for TagResolver benchmark
@@ -93,7 +93,7 @@ public class ComponentBuilderBenchmark {
 
         @Setup(Level.Trial)
         public void setup() {
-            engine = new MockParserEngineBuilder().build();
+            engine = new MockBuilder().build();
             content = generateContentWithPlaceholders(placeholderCount);
         }
     }

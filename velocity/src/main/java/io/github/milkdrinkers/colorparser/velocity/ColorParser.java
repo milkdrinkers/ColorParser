@@ -2,7 +2,6 @@ package io.github.milkdrinkers.colorparser.velocity;
 
 import io.github.milkdrinkers.colorparser.common.ColorParserBase;
 import io.github.milkdrinkers.colorparser.velocity.engine.VelocityParserEngine;
-import io.github.milkdrinkers.colorparser.velocity.engine.VelocityParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.velocity.placeholder.VelocityPlaceholderContext;
 import io.github.milkdrinkers.colorparser.velocity.placeholder.provider.MiniPlaceholdersProvider;
 import net.kyori.adventure.text.Component;
@@ -17,14 +16,26 @@ import org.jetbrains.annotations.Nullable;
  * @see Component
  * @since 4.0.0
  */
+@SuppressWarnings("unused")
 public class ColorParser {
     private static @Nullable ColorParserImpl INSTANCE = null;
 
     private static @NotNull ColorParserImpl getInstance() {
-        if (INSTANCE == null) {
+        if (INSTANCE == null)
             INSTANCE = new ColorParserImpl();
-        }
         return INSTANCE;
+    }
+
+    /**
+     * Initializes the parser with the given parser engine.
+     *
+     * @param engine The Parser Engine to use
+     * @see VelocityParserEngine#builder()
+     * @see VelocityParserEngine.Builder
+     * @since 4.0.0
+     */
+    public static void init(VelocityParserEngine engine) {
+        INSTANCE = new ColorParserImpl(engine);
     }
 
     /**
@@ -49,7 +60,7 @@ public class ColorParser {
         return getInstance().of(component);
     }
 
-    private static class ColorParserImpl extends ColorParserBase<VelocityComponentBuilder, VelocityParserEngineBuilder, VelocityParserEngine, VelocityPlaceholderContext> {
+    private static class ColorParserImpl extends ColorParserBase<VelocityComponentBuilder, VelocityParserEngine.Builder, VelocityParserEngine, VelocityPlaceholderContext> {
         public ColorParserImpl() {
             super();
 
@@ -57,9 +68,17 @@ public class ColorParser {
             super.getEngine().getPlaceholderManager().add(new MiniPlaceholdersProvider());
         }
 
+        public ColorParserImpl(VelocityParserEngine engine) {
+            super(engine);
+
+            // Register placeholder providers
+            super.getEngine().getPlaceholderManager().add(new MiniPlaceholdersProvider());
+        }
+
         @Override
-        public @NotNull VelocityParserEngineBuilder engine() {
-            return new VelocityParserEngineBuilder();
+        public @NotNull VelocityParserEngine.Builder engine() {
+            return VelocityParserEngine.builder()
+                .parseMiniPlaceholders(true);
         }
     }
 }

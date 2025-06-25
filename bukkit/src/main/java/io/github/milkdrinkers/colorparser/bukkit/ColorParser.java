@@ -1,7 +1,6 @@
 package io.github.milkdrinkers.colorparser.bukkit;
 
 import io.github.milkdrinkers.colorparser.bukkit.engine.BukkitParserEngine;
-import io.github.milkdrinkers.colorparser.bukkit.engine.BukkitParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.bukkit.placeholder.BukkitPlaceholderContext;
 import io.github.milkdrinkers.colorparser.bukkit.placeholder.provider.PlaceholderAPIProvider;
 import io.github.milkdrinkers.colorparser.common.ColorParserBase;
@@ -18,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * @see Component
  * @since 4.0.0
  */
+@SuppressWarnings("unused")
 public class ColorParser {
     private static @Nullable ColorParserImpl INSTANCE = null;
 
@@ -28,31 +28,16 @@ public class ColorParser {
     }
 
     /**
-     * Initializes the parser with the given Bukkit parser engine and adventure audiences.
+     * Initializes the parser with the given parser engine.
      *
-     * @param adventure The Bukkit audiences for sending messages
+     * @param engine The Parser Engine to use
      * @apiNote This method must be called before using any of the parser methods.
-     * @see #init(BukkitAudiences, BukkitParserEngine)
-     * @see BukkitAudiences
+     * @see BukkitParserEngine#builder()
+     * @see BukkitParserEngine.Builder
      * @since 4.0.0
      */
-    public static void init(BukkitAudiences adventure) {
-        INSTANCE = new ColorParserImpl(adventure);
-    }
-
-    /**
-     * Initializes the parser with the given Bukkit parser engine and adventure audiences.
-     *
-     * @param adventure The Bukkit audiences for sending messages
-     * @param engine    The Bukkit parser engine to use
-     * @apiNote This method must be called before using any of the parser methods.
-     * @see #init(BukkitAudiences)
-     * @see BukkitAudiences
-     * @see BukkitParserEngineBuilder
-     * @since 4.0.0
-     */
-    public static void init(BukkitAudiences adventure, BukkitParserEngine engine) {
-        INSTANCE = new ColorParserImpl(adventure, engine);
+    public static void init(BukkitParserEngine engine) {
+        INSTANCE = new ColorParserImpl(engine);
     }
 
     /**
@@ -60,8 +45,6 @@ public class ColorParser {
      *
      * @param content The content to parse
      * @return A new colorparser instance
-     * @implSpec On Bukkit you must initialize the parser with {@link #init(BukkitAudiences)} or {@link #init(BukkitAudiences, BukkitParserEngine)} before using this method.
-     * @see #init(BukkitAudiences)
      * @since 4.0.0
      */
     public static BukkitComponentBuilder of(String content) {
@@ -73,40 +56,32 @@ public class ColorParser {
      *
      * @param component The component to parse
      * @return A new colorparser instance
-     * @implSpec On Bukkit you must initialize the parser with {@link #init(BukkitAudiences)} or {@link #init(BukkitAudiences, BukkitParserEngine)} before using this method.
-     * @see #init(BukkitAudiences)
      * @since 4.0.0
      */
     public static BukkitComponentBuilder of(ComponentLike component) {
         return getInstance().of(component);
     }
 
-    private static class ColorParserImpl extends ColorParserBase<BukkitComponentBuilder, BukkitParserEngineBuilder, BukkitParserEngine, BukkitPlaceholderContext> {
+    private static class ColorParserImpl extends ColorParserBase<BukkitComponentBuilder, BukkitParserEngine.Builder, BukkitParserEngine, BukkitPlaceholderContext> {
         private BukkitAudiences adventure;
 
         public ColorParserImpl() {
             super();
-        }
-
-        public ColorParserImpl(BukkitAudiences adventure) {
-            super();
-            this.adventure = adventure;
 
             // Register placeholder providers
             super.getEngine().getPlaceholderManager().add(new PlaceholderAPIProvider());
         }
 
-        public ColorParserImpl(BukkitAudiences adventure, BukkitParserEngine engine) {
+        public ColorParserImpl(BukkitParserEngine engine) {
             super(engine);
-            this.adventure = adventure;
 
             // Register placeholder providers
             super.getEngine().getPlaceholderManager().add(new PlaceholderAPIProvider());
         }
 
         @Override
-        public @NotNull BukkitParserEngineBuilder engine() {
-            return new BukkitParserEngineBuilder(adventure);
+        public @NotNull BukkitParserEngine.Builder engine() {
+            return BukkitParserEngine.builder().parsePlaceholderAPI(true);
         }
     }
 }

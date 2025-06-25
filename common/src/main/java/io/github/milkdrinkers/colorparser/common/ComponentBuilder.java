@@ -1,7 +1,6 @@
 package io.github.milkdrinkers.colorparser.common;
 
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngine;
-import io.github.milkdrinkers.colorparser.common.engine.ParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
 import net.kyori.adventure.text.Component;
@@ -24,13 +23,13 @@ import java.util.List;
  * It uses the platform-specific ParserEngine to parse the content and apply the placeholders.
  *
  * @param <ColorParser>   The platform-specific {@link ComponentBuilder} type, e.g., BukkitComponentBuilder or PaperComponentBuilder
- * @param <EngineBuilder> The platform-specific {@link ParserEngineBuilder} type, e.g., BukkitParserEngineBuilder or PaperParserEngineBuilder
+ * @param <EngineBuilder> The platform-specific {@link ParserEngine.EngineBuilder} type, e.g., BukkitParserEngineBuilder or PaperParserEngineBuilder
  * @param <Engine>        The platform-specific {@link ParserEngine} type, e.g., BukkitParserEngine or PaperParserEngine
  * @param <Context>       The platform-specific {@link PlaceholderContext} type, e.g., BukkitSimplePlaceholderContext or PaperSimplePlaceholderContext
  * @since 4.0.0
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
+public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngine.EngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final @NotNull Engine engine;
     private String content;
     private boolean parseLegacy;
@@ -62,7 +61,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull String value) {
+    public final ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull String value) {
         placeholders.add(
             Placeholder.parsed(
                 key,
@@ -84,7 +83,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings({"unchecked", "UnusedReturnValue"})
     @NotNull
-    public ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull ColorParser value) {
+    public final ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull ColorParser value) {
         placeholders.add(
             Placeholder.component(
                 key,
@@ -106,7 +105,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull ComponentLike value) {
+    public final ColorParser with(@NotNull @Subst("test_placeholder") @TagPattern String key, @NotNull ComponentLike value) {
         placeholders.add(
             Placeholder.component(
                 key,
@@ -125,7 +124,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser with(@NotNull TagResolver resolver) {
+    public final ColorParser with(@NotNull TagResolver resolver) {
         placeholders.add(resolver);
         return (ColorParser) this;
     }
@@ -139,7 +138,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser with(@NotNull Collection<TagResolver> resolvers) {
+    public final ColorParser with(@NotNull Collection<TagResolver> resolvers) {
         placeholders.addAll(resolvers);
         return (ColorParser) this;
     }
@@ -153,7 +152,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser with(@NotNull TagResolver... resolvers) {
+    public final ColorParser with(@NotNull TagResolver... resolvers) {
         Collections.addAll(placeholders, resolvers);
         return (ColorParser) this;
     }
@@ -166,7 +165,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser legacy() {
+    public final ColorParser legacy() {
         this.parseLegacy = true;
         return (ColorParser) this;
     }
@@ -179,7 +178,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser legacy(final boolean shouldParseLegacy) {
+    public final ColorParser legacy(final boolean shouldParseLegacy) {
         this.parseLegacy = shouldParseLegacy;
         return (ColorParser) this;
     }
@@ -195,7 +194,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser tag(@NotNull TagResolver tagResolver) {
+    public final ColorParser tag(@NotNull TagResolver tagResolver) {
         this.miscTagResolvers.add(tagResolver);
         return (ColorParser) this;
     }
@@ -211,7 +210,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings("unchecked")
     @NotNull
-    public ColorParser tag(@NotNull Collection<TagResolver> tagResolvers) {
+    public final ColorParser tag(@NotNull Collection<TagResolver> tagResolvers) {
         this.miscTagResolvers.addAll(tagResolvers);
         return (ColorParser) this;
     }
@@ -243,7 +242,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      * @return The parser engine
      * @since 4.0.0
      */
-    protected @NotNull Engine getEngine() {
+    protected final @NotNull Engine getEngine() {
         return engine;
     }
 
@@ -253,7 +252,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      * @return The content
      * @since 4.0.0
      */
-    protected String getContent() {
+    protected final String getContent() {
         return content;
     }
 
@@ -267,7 +266,7 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      */
     @SuppressWarnings({"unchecked", "UnusedReturnValue"})
     @NotNull
-    protected ColorParser setContent(final @NotNull String content) {
+    protected final ColorParser setContent(final @NotNull String content) {
         this.content = content;
         return (ColorParser) this;
     }

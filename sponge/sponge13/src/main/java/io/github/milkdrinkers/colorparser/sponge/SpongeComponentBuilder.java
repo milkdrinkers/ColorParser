@@ -4,7 +4,6 @@ import io.github.milkdrinkers.colorparser.common.ComponentBuilder;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProviderManager;
 import io.github.milkdrinkers.colorparser.sponge.engine.SpongeParserEngine;
-import io.github.milkdrinkers.colorparser.sponge.engine.SpongeParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.sponge.placeholder.SpongePlaceholderContext;
 import io.github.milkdrinkers.colorparser.sponge.placeholder.SpongePlayer;
 import net.kyori.adventure.text.Component;
@@ -20,7 +19,7 @@ import org.spongepowered.api.entity.living.player.Player;
  * @since 4.0.0
  */
 @SuppressWarnings("unused")
-public class SpongeComponentBuilder extends ComponentBuilder<SpongeComponentBuilder, SpongeParserEngineBuilder, SpongeParserEngine, SpongePlaceholderContext> {
+public final class SpongeComponentBuilder extends ComponentBuilder<SpongeComponentBuilder, SpongeParserEngine.Builder, SpongeParserEngine, SpongePlaceholderContext> {
     /**
      * Creates a new ComponentBuilder with the given engine and content.
      *
@@ -30,6 +29,8 @@ public class SpongeComponentBuilder extends ComponentBuilder<SpongeComponentBuil
      */
     public SpongeComponentBuilder(@NotNull SpongeParserEngine engine, @NotNull String content) {
         super(engine, content);
+        if (engine.isParsingMini())
+            mini();
     }
 
     private @Nullable SpongePlaceholderContext miniPlaceholdersContext = null;

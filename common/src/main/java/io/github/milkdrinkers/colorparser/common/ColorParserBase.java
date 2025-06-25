@@ -1,7 +1,6 @@
 package io.github.milkdrinkers.colorparser.common;
 
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngine;
-import io.github.milkdrinkers.colorparser.common.engine.ParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
 import net.kyori.adventure.text.ComponentLike;
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 4.0.0
  */
-public abstract class ColorParserBase<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
+public abstract class ColorParserBase<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngine.EngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final Engine ENGINE;
 
     /**
@@ -74,9 +73,9 @@ public abstract class ColorParserBase<ColorParser extends ComponentBuilder<Color
     }
 
     /**
-     * Creates a new ParserEngineBuilder to create a custom ParserEngine.
+     * Creates a new EngineBuilder to create a custom ParserEngine.
      *
-     * @return A new ParserEngineBuilder
+     * @return A new EngineBuilder
      * @since 4.0.0
      */
     public abstract EngineBuilder engine();

@@ -5,7 +5,6 @@ import io.github.milkdrinkers.colorparser.common.ComponentBuilder;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProviderManager;
 import io.github.milkdrinkers.colorparser.velocity.engine.VelocityParserEngine;
-import io.github.milkdrinkers.colorparser.velocity.engine.VelocityParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.velocity.placeholder.VelocityPlaceholderContext;
 import io.github.milkdrinkers.colorparser.velocity.placeholder.VelocityPlayer;
 import net.kyori.adventure.text.Component;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * @since 4.0.0
  */
 @SuppressWarnings("unused")
-public class VelocityComponentBuilder extends ComponentBuilder<VelocityComponentBuilder, VelocityParserEngineBuilder, VelocityParserEngine, VelocityPlaceholderContext> {
+public final class VelocityComponentBuilder extends ComponentBuilder<VelocityComponentBuilder, VelocityParserEngine.Builder, VelocityParserEngine, VelocityPlaceholderContext> {
     /**
      * Creates a new ComponentBuilder with the given engine and content.
      *
@@ -30,6 +29,8 @@ public class VelocityComponentBuilder extends ComponentBuilder<VelocityComponent
      */
     public VelocityComponentBuilder(@NotNull VelocityParserEngine engine, @NotNull String content) {
         super(engine, content);
+        if (engine.isParsingMini())
+            mini();
     }
 
     private @Nullable VelocityPlaceholderContext miniPlaceholdersContext = null;

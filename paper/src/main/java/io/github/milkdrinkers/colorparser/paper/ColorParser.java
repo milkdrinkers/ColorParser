@@ -2,7 +2,6 @@ package io.github.milkdrinkers.colorparser.paper;
 
 import io.github.milkdrinkers.colorparser.common.ColorParserBase;
 import io.github.milkdrinkers.colorparser.paper.engine.PaperParserEngine;
-import io.github.milkdrinkers.colorparser.paper.engine.PaperParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.paper.placeholder.PaperPlaceholderContext;
 import io.github.milkdrinkers.colorparser.paper.placeholder.provider.MiniPlaceholdersProvider;
 import io.github.milkdrinkers.colorparser.paper.placeholder.provider.PlaceholderAPIProvider;
@@ -18,14 +17,26 @@ import org.jetbrains.annotations.Nullable;
  * @see Component
  * @since 4.0.0
  */
+@SuppressWarnings("unused")
 public class ColorParser {
     private static @Nullable ColorParserImpl INSTANCE = null;
 
     private static @NotNull ColorParserImpl getInstance() {
-        if (INSTANCE == null) {
+        if (INSTANCE == null)
             INSTANCE = new ColorParserImpl();
-        }
         return INSTANCE;
+    }
+
+    /**
+     * Initializes the parser with the given parser engine.
+     *
+     * @param engine The Parser Engine to use
+     * @see PaperParserEngine#builder()
+     * @see PaperParserEngine.Builder
+     * @since 4.0.0
+     */
+    public static void init(PaperParserEngine engine) {
+        INSTANCE = new ColorParserImpl(engine);
     }
 
     /**
@@ -50,7 +61,7 @@ public class ColorParser {
         return getInstance().of(component);
     }
 
-    private static class ColorParserImpl extends ColorParserBase<PaperComponentBuilder, PaperParserEngineBuilder, PaperParserEngine, PaperPlaceholderContext> {
+    private static class ColorParserImpl extends ColorParserBase<PaperComponentBuilder, PaperParserEngine.Builder, PaperParserEngine, PaperPlaceholderContext> {
         public ColorParserImpl() {
             super();
 
@@ -59,9 +70,19 @@ public class ColorParser {
             super.getEngine().getPlaceholderManager().add(new MiniPlaceholdersProvider());
         }
 
+        public ColorParserImpl(PaperParserEngine engine) {
+            super(engine);
+
+            // Register placeholder providers
+            super.getEngine().getPlaceholderManager().add(new PlaceholderAPIProvider());
+            super.getEngine().getPlaceholderManager().add(new MiniPlaceholdersProvider());
+        }
+
         @Override
-        public @NotNull PaperParserEngineBuilder engine() {
-            return new PaperParserEngineBuilder();
+        public @NotNull PaperParserEngine.Builder engine() {
+            return PaperParserEngine.builder()
+                .parseMiniPlaceholders(true)
+                .parsePlaceholderAPI(true);
         }
     }
 }

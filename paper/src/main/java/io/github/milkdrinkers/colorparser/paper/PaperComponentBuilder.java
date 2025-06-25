@@ -4,7 +4,6 @@ import io.github.milkdrinkers.colorparser.common.ComponentBuilder;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProviderManager;
 import io.github.milkdrinkers.colorparser.paper.engine.PaperParserEngine;
-import io.github.milkdrinkers.colorparser.paper.engine.PaperParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.paper.placeholder.PaperPlaceholderContext;
 import io.github.milkdrinkers.colorparser.paper.placeholder.PaperPlayer;
 import net.kyori.adventure.text.Component;
@@ -21,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
  * @since 4.0.0
  */
 @SuppressWarnings("unused")
-public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilder, PaperParserEngineBuilder, PaperParserEngine, PaperPlaceholderContext> {
+public final class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilder, PaperParserEngine.Builder, PaperParserEngine, PaperPlaceholderContext> {
     /**
      * Creates a new ComponentBuilder with the given engine and content.
      *
@@ -31,6 +30,10 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     public PaperComponentBuilder(@NotNull PaperParserEngine engine, @NotNull String content) {
         super(engine, content);
+        if (engine.isParsingPapi())
+            papi();
+        if (engine.isParsingMini())
+            mini();
     }
 
     private @Nullable PaperPlaceholderContext papiContext = null;

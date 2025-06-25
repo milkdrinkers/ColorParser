@@ -1,7 +1,6 @@
 package io.github.milkdrinkers.colorparser.common;
 
 import io.github.milkdrinkers.colorparser.common.mock.engine.MockParserEngine;
-import io.github.milkdrinkers.colorparser.common.mock.engine.MockParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.common.util.TestUtil;
 import net.kyori.adventure.text.Component;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,7 @@ public class ComponentBuilderTest {
 
     @BeforeEach
     void setUp() {
-        engine = new MockParserEngineBuilder().parseLegacy(true).build();
+        engine = MockParserEngine.builder().parseLegacy(true).build();
     }
 
     @Test
