@@ -70,7 +70,7 @@ mavenPublishing {
     ))
 
     // Publish to Maven Central
-    publishToMavenCentral()
+    publishToMavenCentral(automaticRelease = true)
 
     // Sign all publications
     signAllPublications()
