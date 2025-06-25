@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 /**
  * Manages the registration and retrieval of {@link PlaceholderProvider} instances.
+ * @since 4.0.0
  */
 public class PlaceholderProviderManager<Context extends SimplePlaceholderContext<?, ?>> {
     private final Map<String, PlaceholderProvider<Context>> stringPlaceholderProviders = new HashMap<>();
@@ -21,6 +22,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
      * Adds a single {@link PlaceholderProvider} to the manager.
      *
      * @param provider the provider to add
+     * @since 4.0.0
      */
     public void add(@NotNull PlaceholderProvider<Context> provider) {
         try {
@@ -44,6 +46,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
      * Adds multiple {@link PlaceholderProvider} instances to the manager.
      *
      * @param providers the collection of providers to add
+     * @since 4.0.0
      */
     public void addAll(@NotNull Collection<PlaceholderProvider<Context>> providers) {
         try {
@@ -68,6 +71,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
     /**
      * Clears all placeholder providers from the manager.
      * This method removes all providers from both string and mini-message lists.
+     * @since 4.0.0
      */
     public void clear() {
         try {
@@ -83,6 +87,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
      * Retrieves all placeholder providers, both string and mini-message types.
      *
      * @return an unmodifiable list of all placeholder providers
+     * @since 4.0.0
      */
     public @NotNull List<PlaceholderProvider<Context>> getAll() {
         try {
@@ -101,6 +106,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
      *
      * @param providerName the name of the placeholder provider
      * @return an Optional containing the BiFunction if available, or empty if not
+     * @since 4.0.0
      */
     public @NotNull Optional<BiFunction<Context, String, String>> getStringResolver(final @NotNull String providerName) {
         try {
@@ -121,6 +127,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
      * @param providerName the name of the MiniMessage placeholder provider
      * @param context      the context in which to resolve the tags
      * @return an Optional containing the TagResolver if available, or empty if not
+     * @since 4.0.0
      */
     public @NotNull Optional<TagResolver> getMiniMessageTagResolver(final @NotNull String providerName, final @NotNull Context context) {
         try {
