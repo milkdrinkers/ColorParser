@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A customizable engine for parsing components.
  * This is the core processing unit that handles component transformations.
+ *
  * @since 4.0.0
  */
 public abstract class ParserEngine<
@@ -24,6 +25,8 @@ public abstract class ParserEngine<
     Context extends PlaceholderContext<? extends PlatformPlayer>
     > {
     private final @NotNull MiniMessage miniMessage;
+    private final boolean parseDefaultTags;
+    private final boolean parseDefaultAddonTags;
     private final boolean parseLegacy;
     private final LegacyColorsProcessor legacyColorsProcessor = new LegacyColorsProcessor();
     private final PlaceholderProviderManager<Context> placeholderManager = new PlaceholderProviderManager<>();
@@ -35,8 +38,10 @@ public abstract class ParserEngine<
      * @param parseLegacy Whether to parse legacy format or not
      * @since 4.0.0
      */
-    protected ParserEngine(@NotNull MiniMessage miniMessage, boolean parseLegacy) {
+    protected ParserEngine(@NotNull MiniMessage miniMessage, boolean parseDefaultTags, boolean parseDefaultAddonTags, boolean parseLegacy) {
         this.miniMessage = miniMessage;
+        this.parseDefaultTags = parseDefaultTags;
+        this.parseDefaultAddonTags = parseDefaultAddonTags;
         this.parseLegacy = parseLegacy;
     }
 
@@ -86,6 +91,26 @@ public abstract class ParserEngine<
     }
 
     /**
+     * Get whether this engine parses default tags shipped with Adventure.
+     *
+     * @return Whether this engine parses default tags from Adventure
+     * @since 4.0.0
+     */
+    public boolean isParsingDefaultTags() {
+        return parseDefaultTags;
+    }
+
+    /**
+     * Get whether this engine parses default addon tags shipped with ColorParser.
+     *
+     * @return Whether this engine parses default addon tags from ColorParser
+     * @since 4.0.0
+     */
+    public boolean isParsingDefaultAddonTags() {
+        return parseDefaultAddonTags;
+    }
+
+    /**
      * Get whether this engine parses legacy formatted text.
      *
      * @return Whether this engine parses legacy format
@@ -118,10 +143,13 @@ public abstract class ParserEngine<
 
     /**
      * EngineBuilder for creating customized ParserEngine instances.
+     *
      * @since 4.0.0
      */
     public abstract static class EngineBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngine.EngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
         protected MiniMessage miniMessage;
+        protected boolean parseDefaultTags = true;
+        protected boolean parseDefaultAddonTags = true;
         protected boolean parseLegacy = true;
 
         /**
@@ -135,6 +163,36 @@ public abstract class ParserEngine<
         @NotNull
         public final EngineBuilder miniMessage(@NotNull MiniMessage miniMessage) {
             this.miniMessage = miniMessage;
+            return (EngineBuilder) this;
+        }
+
+        /**
+         * Sets whether this engine parses the default tags shipped with Adventure.
+         *
+         * @param value Whether to parse default tags shipped with Adventure or not
+         * @return This builder
+         * @see TagResolver#standard()
+         * @since 4.0.0
+         */
+        @SuppressWarnings("unchecked")
+        @NotNull
+        public final EngineBuilder parseDefaultTags(boolean value) {
+            this.parseDefaultTags = value;
+            return (EngineBuilder) this;
+        }
+
+        /**
+         * Sets whether this engine parses the default addon tags shipped with ColorParser.
+         *
+         * @param value Whether to parse default addon tags shipped with ColorParser or not
+         * @return This builder
+         * @see CustomTags#defaults()
+         * @since 4.0.0
+         */
+        @SuppressWarnings("unchecked")
+        @NotNull
+        public final EngineBuilder parseDefaultAddonTags(boolean value) {
+            this.parseDefaultAddonTags = value;
             return (EngineBuilder) this;
         }
 
@@ -165,13 +223,7 @@ public abstract class ParserEngine<
             if (miniMessage == null) {
                 final MiniMessage.Builder miniMessageBuilder = MiniMessage.builder()
                     .strict(false)
-                    .tags(
-                        TagResolver.builder()
-                            .resolvers(
-                                TagResolver.standard(),
-                                CustomTags.defaults()
-                            ).build()
-                    );
+                    .tags(TagResolver.empty());
 
                 miniMessage = miniMessageBuilder.build();
             }

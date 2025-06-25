@@ -15,8 +15,8 @@ public final class VelocityParserEngine extends ParserEngine<VelocityComponentBu
      * @param miniMessage The MiniMessage instance
      * @param parseLegacy Whether to parse legacy format or not
      */
-    private VelocityParserEngine(@NotNull MiniMessage miniMessage, boolean parseLegacy, boolean mini) {
-        super(miniMessage, parseLegacy);
+    private VelocityParserEngine(@NotNull MiniMessage miniMessage, boolean parseDefaultTags, boolean parseDefaultAddonTags, boolean parseLegacy, boolean mini) {
+        super(miniMessage, parseDefaultTags, parseDefaultAddonTags, parseLegacy);
         this.mini = mini;
     }
 
@@ -72,6 +72,8 @@ public final class VelocityParserEngine extends ParserEngine<VelocityComponentBu
         protected @NotNull VelocityParserEngine buildPlatformSpecific() {
             return new VelocityParserEngine(
                 this.miniMessage,
+                this.parseDefaultTags,
+                this.parseDefaultAddonTags,
                 this.parseLegacy,
                 this.mini
             );

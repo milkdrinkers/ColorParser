@@ -17,8 +17,8 @@ public final class BukkitParserEngine extends ParserEngine<BukkitComponentBuilde
      * @param miniMessage The MiniMessage instance
      * @param parseLegacy Whether to parse legacy format or not
      */
-    private BukkitParserEngine(@NotNull MiniMessage miniMessage, boolean parseLegacy, @NotNull BukkitAudiences adventure, boolean papi) {
-        super(miniMessage, parseLegacy);
+    private BukkitParserEngine(@NotNull MiniMessage miniMessage, boolean parseDefaultTags, boolean parseDefaultAddonTags, boolean parseLegacy, @NotNull BukkitAudiences adventure, boolean papi) {
+        super(miniMessage, parseDefaultTags, parseDefaultAddonTags, parseLegacy);
         this.adventure = adventure;
         this.papi = papi;
     }
@@ -92,6 +92,8 @@ public final class BukkitParserEngine extends ParserEngine<BukkitComponentBuilde
         protected @NotNull BukkitParserEngine buildPlatformSpecific() {
             return new BukkitParserEngine(
                 this.miniMessage,
+                this.parseDefaultTags,
+                this.parseDefaultAddonTags,
                 this.parseLegacy,
                 this.adventure,
                 this.papi

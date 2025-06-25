@@ -16,8 +16,8 @@ public final class PaperParserEngine extends ParserEngine<PaperComponentBuilder,
      * @param miniMessage The MiniMessage instance
      * @param parseLegacy Whether to parse legacy format or not
      */
-    private PaperParserEngine(@NotNull MiniMessage miniMessage, boolean parseLegacy, boolean papi, boolean mini) {
-        super(miniMessage, parseLegacy);
+    private PaperParserEngine(@NotNull MiniMessage miniMessage, boolean parseDefaultTags, boolean parseDefaultAddonTags, boolean parseLegacy, boolean papi, boolean mini) {
+        super(miniMessage, parseDefaultTags, parseDefaultAddonTags, parseLegacy);
         this.papi = papi;
         this.mini = mini;
     }
@@ -96,6 +96,8 @@ public final class PaperParserEngine extends ParserEngine<PaperComponentBuilder,
         protected @NotNull PaperParserEngine buildPlatformSpecific() {
             return new PaperParserEngine(
                 this.miniMessage,
+                this.parseDefaultTags,
+                this.parseDefaultAddonTags,
                 this.parseLegacy,
                 this.papi,
                 this.mini

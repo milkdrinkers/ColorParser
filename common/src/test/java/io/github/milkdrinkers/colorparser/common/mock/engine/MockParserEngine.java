@@ -7,8 +7,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
 
 public class MockParserEngine extends ParserEngine<MockComponentBuilder, MockParserEngine.Builder, MockParserEngine, MockPlaceholderContext> {
-    protected MockParserEngine(@NotNull MiniMessage miniMessage, boolean parseLegacy) {
-        super(miniMessage, parseLegacy);
+    protected MockParserEngine(@NotNull MiniMessage miniMessage, boolean parseDefaultTags, boolean parseDefaultAddonTags, boolean parseLegacy) {
+        super(miniMessage, parseDefaultTags, parseDefaultAddonTags, parseLegacy);
     }
 
     @Override
@@ -41,6 +41,8 @@ public class MockParserEngine extends ParserEngine<MockComponentBuilder, MockPar
         protected @NotNull MockParserEngine buildPlatformSpecific() {
             return new MockParserEngine(
                 this.miniMessage,
+                this.parseDefaultTags,
+                this.parseDefaultAddonTags,
                 this.parseLegacy
             );
         }

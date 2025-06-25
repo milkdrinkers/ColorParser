@@ -3,6 +3,7 @@ package io.github.milkdrinkers.colorparser.common;
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngine;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
+import io.github.milkdrinkers.colorparser.common.tag.CustomTags;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.tag.TagPattern;
@@ -32,6 +33,8 @@ import java.util.List;
 public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngine.EngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final @NotNull Engine engine;
     private String content;
+    private boolean defaultTags; // MiniMessage default tags
+    private boolean defaultAddonTags; // ColorParser default tags
     private boolean parseLegacy;
     private final List<TagResolver> placeholders = new ArrayList<>(8);
     private final List<TagResolver> miscTagResolvers = new ArrayList<>(4);
@@ -46,6 +49,8 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     public ComponentBuilder(@NotNull Engine engine, @NotNull String content) {
         this.engine = engine;
         this.content = content;
+        this.defaultTags = engine.isParsingDefaultTags();
+        this.defaultAddonTags = engine.isParsingDefaultAddonTags();
         this.parseLegacy = engine.isParsingLegacy();
     }
 
@@ -158,6 +163,62 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     }
 
     /**
+     * Enables parsing of the MiniMessage default/standard tags.
+     *
+     * @return The current builder instance
+     * @see TagResolver#standard()
+     * @since 4.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public final ColorParser defaultTags() {
+        this.defaultTags = true;
+        return (ColorParser) this;
+    }
+
+    /**
+     * Sets whether to parse the MiniMessage default/standard tags.
+     *
+     * @return The current builder instance
+     * @see TagResolver#standard()
+     * @since 4.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public final ColorParser defaultTags(final boolean shouldParseDefaultTags) {
+        this.defaultTags = shouldParseDefaultTags;
+        return (ColorParser) this;
+    }
+
+    /**
+     * Enables parsing of the ColorParser addon default/standard tags.
+     *
+     * @return The current builder instance
+     * @see CustomTags#defaults()
+     * @since 4.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public final ColorParser defaultAddonTags() {
+        this.defaultAddonTags = true;
+        return (ColorParser) this;
+    }
+
+    /**
+     * Sets whether to parse the ColorParser addon default/standard tags.
+     *
+     * @return The current builder instance
+     * @see CustomTags#defaults()
+     * @since 4.0.0
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public final ColorParser defaultAddonTags(final boolean shouldParseDefaultAddonTags) {
+        this.defaultAddonTags = shouldParseDefaultAddonTags;
+        return (ColorParser) this;
+    }
+
+    /**
      * Enables legacy color codes parsing like {@literal §} and {@literal &} into their minimessage equivalents.
      *
      * @return The current builder instance
@@ -225,13 +286,18 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     public Component build() {
         final String text = parseLegacy ? getEngine().getLegacyColorsProcessor().process(content) : content;
 
+        if (defaultTags)
+            placeholders.add(TagResolver.standard()); // Add the standard MiniMessage tags if enabled
+
+        if (defaultAddonTags)
+            placeholders.add(CustomTags.defaults()); // Add the default ColorParser custom tags if enabled
+
         // Merge all custom tag resolvers into a single array
         final int totalResolvers = placeholders.size() + miscTagResolvers.size();
         final TagResolver[] resolvers = new TagResolver[totalResolvers];
 
         System.arraycopy(placeholders.toArray(new TagResolver[0]), 0, resolvers, 0, placeholders.size());
         System.arraycopy(miscTagResolvers.toArray(new TagResolver[0]), 0, resolvers, placeholders.size(), miscTagResolvers.size());
-
 
         return getEngine().getMiniMessage().deserialize(text, resolvers); // Parse the final string to a Component
     }

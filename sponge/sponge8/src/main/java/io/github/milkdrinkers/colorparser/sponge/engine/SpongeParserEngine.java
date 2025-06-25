@@ -16,8 +16,8 @@ public final class SpongeParserEngine extends ParserEngine<SpongeComponentBuilde
      * @param parseLegacy Whether to parse legacy format or not
      * @param mini        Whether to use Mini placeholders
      */
-    private SpongeParserEngine(@NotNull MiniMessage miniMessage, boolean parseLegacy, boolean mini) {
-        super(miniMessage, parseLegacy);
+    private SpongeParserEngine(@NotNull MiniMessage miniMessage, boolean parseDefaultTags, boolean parseDefaultAddonTags, boolean parseLegacy, boolean mini) {
+        super(miniMessage, parseDefaultTags, parseDefaultAddonTags, parseLegacy);
         this.mini = mini;
     }
 
@@ -46,7 +46,7 @@ public final class SpongeParserEngine extends ParserEngine<SpongeComponentBuilde
     }
 
     /**
-     * @see io.github.milkdrinkers.colorparser.common.engine.ParserEngine.EngineBuilder
+     * @see EngineBuilder
      * @since 4.0.0
      */
     public static final class Builder extends EngineBuilder<
@@ -73,6 +73,8 @@ public final class SpongeParserEngine extends ParserEngine<SpongeComponentBuilde
         protected @NotNull SpongeParserEngine buildPlatformSpecific() {
             return new SpongeParserEngine(
                 this.miniMessage,
+                this.parseDefaultTags,
+                this.parseDefaultAddonTags,
                 this.parseLegacy,
                 this.mini
             );
