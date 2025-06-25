@@ -12,6 +12,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This tag converts alphabetic characters to their smallcaps equivalents.
+ * </br></br>
+ * Example usage:</br>
+ * {@code <smallcaps>Hello World!</smallcaps>}</br>
+ *
+ * @implNote The tag will convert each character in the input string to its smallcaps equivalent if possible, otherwise it will keep the original character.
+ * @since 4.0.0
+ */
 public class SmallcapsResolver implements TagResolver {
     private final static @NotNull Map<Character, Character> CHARACTER_MAP;
 

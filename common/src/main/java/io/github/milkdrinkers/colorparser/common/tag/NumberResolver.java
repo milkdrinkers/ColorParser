@@ -13,23 +13,36 @@ import java.text.DecimalFormat;
 
 import static io.github.milkdrinkers.colorparser.common.tag.TagUtil.resolveVariableToNumber;
 
-// Number Resolver: <number:variable 'format'>
-// Example: <number:balance:'#,##0.00'>
+/**
+ * This tag is used to format a numeric variable according to a specified pattern.
+ * </br></br>
+ * Example usage:</br>
+ * {@code <number:balance:'#,##0.00'>}</br>
+ * {@code <number:some_name:'#,#0.0'>}</br>
+ * </br>
+ * The tag requires two arguments:</br>
+ * - the name of a minimessage variable which can be parsed into a number</br>
+ * - a pattern string, see {@link DecimalFormat} for details on the pattern string.</br>
+ *
+ * @implNote The pattern follows Java's DecimalFormat patterns.
+ * @see DecimalFormat
+ * @since 4.0.0
+ */
 public class NumberResolver implements TagResolver {
     @Override
     public @Nullable Tag resolve(@NotNull String name, @NotNull ArgumentQueue args, @NotNull Context ctx) throws ParsingException {
         if (!has(name))
             return null;
 
-        // 1. Resolve the variable (e.g., "balance") to a number
         final double valueVariable = resolveVariableToNumber(args.popOr("Missing variable argument!").value(), ctx);
+        final String pattern = args.popOr("Missing pattern argument!").value();
 
-        // 2. Parse the format (e.g., "#,##0.00")
-        final String format = args.popOr("Missing format argument!").value();
-
-        // 3. Format the number
-        final DecimalFormat df = new DecimalFormat(format);
-        return Tag.inserting(Component.text(df.format(valueVariable)));
+        try {
+            final DecimalFormat df = new DecimalFormat(pattern);
+            return Tag.inserting(Component.text(df.format(valueVariable)));
+        } catch (NullPointerException | IllegalArgumentException | ArithmeticException e) {
+            throw ctx.newException("Invalid pattern argument!", e, args);
+        }
     }
 
     @Override

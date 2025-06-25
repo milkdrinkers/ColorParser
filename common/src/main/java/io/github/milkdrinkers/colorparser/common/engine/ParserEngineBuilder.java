@@ -47,19 +47,12 @@ public abstract class ParserEngineBuilder<ColorParser extends ComponentBuilder<C
         if (miniMessage == null) {
             final MiniMessage.Builder miniMessageBuilder = MiniMessage.builder()
                 .strict(false)
-                .editTags(
-                    builder -> builder.resolvers(
-                        TagResolver.standard(),
-                        new UppercaseResolver(),
-                        new LowercaseResolver(),
-                        new NumberResolver(),
-                        new PluralResolver(),
-                        new ChoiceResolver(),
-                        new TrimResolver(),
-                        new LighterResolver(),
-                        new DarkerResolver(),
-                        new SmallcapsResolver()
-                    ).build()
+                .tags(
+                    TagResolver.builder()
+                        .resolvers(
+                            TagResolver.standard(),
+                            CustomTags.defaults()
+                        ).build()
                 );
 
             miniMessage = miniMessageBuilder.build();

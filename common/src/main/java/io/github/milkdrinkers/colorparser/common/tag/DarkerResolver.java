@@ -14,6 +14,15 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.function.Function;
 
+/**
+ * This tag darkens the color of the text by darkening the RGB values.
+ * </br></br>
+ * Example usage:</br>
+ * {@code <darker>Some text</darker>}</br>
+ *
+ * @implNote The tag will apply the {@link Color#darker()} method to the current text color, making it darker.
+ * @since 4.0.0
+ */
 public class DarkerResolver implements TagResolver {
     @Override
     public @Nullable Tag resolve(@NotNull String name, @NotNull ArgumentQueue arguments, @NotNull Context ctx) throws ParsingException {

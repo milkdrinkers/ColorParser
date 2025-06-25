@@ -13,7 +13,14 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-abstract class TagUtil {
+/**
+ * Provides utility methods for working with tag resolvers.
+ */
+final class TagUtil {
+    private static final PlainTextComponentSerializer PLAIN_TEXT_SERIALIZER = PlainTextComponentSerializer.plainText();
+
+    private TagUtil() {}
+
     /**
      * Modify the content of a {@link TextComponent} using a function.
      *
@@ -22,7 +29,7 @@ abstract class TagUtil {
      * @apiNote Shorthand for using {@link #modify(Component, Function)}
      * @see #modify(Component, Function)
      */
-    public static @NotNull Tag modify(@NotNull Function<String, String> modifier) {
+    static @NotNull Tag modify(@NotNull Function<String, String> modifier) {
         return (Modifying) (current, depth) -> modify(current, modifier);
     }
 
@@ -34,7 +41,7 @@ abstract class TagUtil {
      * @apiNote Shorthand for using {@link #modify(Component, Function)}
      * @see #modify(Component, Function)
      */
-    public static @NotNull Tag modify(@NotNull BiFunction<Component, String, String> modifier) {
+    static @NotNull Tag modify(@NotNull BiFunction<Component, String, String> modifier) {
         return (Modifying) (current, depth) -> modify(current, modifier);
     }
 
@@ -45,7 +52,7 @@ abstract class TagUtil {
      * @param modifier  the function to apply to the content
      * @return the modified component
      */
-    public static @NotNull Component modify(Component component, @NotNull Function<String, String> modifier) {
+    static @NotNull Component modify(Component component, @NotNull Function<String, String> modifier) {
         // Recursively iterate through children and modify them
         component = component.children(
             component.children()
@@ -70,61 +77,58 @@ abstract class TagUtil {
      * @param modifier  the function to apply to the content
      * @return the modified component
      */
-    public static Component modify(Component component, @NotNull BiFunction<Component, String, String> modifier) {
+    static Component modify(Component component, @NotNull BiFunction<Component, String, String> modifier) {
         return modify(component, (string) -> modifier.apply(component, string));
     }
 
-    static @Nullable Tuple splitClause(@NotNull String clause) {
+    /**
+     * Split a string at the first {@literal :} character, into a tuple containing the content ahead of the character and after.
+     * @param clause the string to split, e.g. "key:value"
+     * @return a tuple containing the key and value, or null if the string does not contain a {@literal :} character
+     */
+    static @Nullable Tuple<String, String> splitClause(@NotNull String clause) {
         final String[] parts = clause.split(":", 2);
-        if (parts.length != 2) return null;
+        if (parts.length != 2)
+            return null;
 
-        return new Tuple(parts[0].trim(), parts[1].trim());
+        return new Tuple<>(parts[0].trim(), parts[1].trim());
     }
 
-    static double resolveVariableToNumber(@NotNull String variableName, @NotNull Context ctx) {
-        // Resolve the variable (e.g., "<balance>") to a plain text number
-        Component resolved = ctx.deserialize(variableName);
-        String plain = PlainTextComponentSerializer.plainText().serialize(resolved);
-        return Double.parseDouble(plain);
-    }
-
-    static boolean matchesPluralCondition(String condition, double count) {
-        condition = condition.trim().toLowerCase();
-        switch (condition) {
-            case "one":
-                return count == 1;
-            case "other":
-                return count != 1;
-            default:
-                if (condition.contains("-")) {
-                    String[] range = condition.split("-");
-                    double min = Double.parseDouble(range[0]);
-                    double max = Double.parseDouble(range[1]);
-                    return count >= min && count <= max;
-                }
-                return count == Double.parseDouble(condition);
+    /**
+     * Resolves a minimessage variable using the provided context and converts it to a double.
+     * @param arg the name of a minimessage variable to resolve
+     * @param ctx the current context to use for resolving the variable
+     * @return the resolved number as a double or 0 if the variable could not be parsed into a valid number
+     */
+    static double resolveVariableToNumber(@NotNull String arg, @NotNull Context ctx) {
+        final Component resolved = ctx.deserialize(arg); // Resolve the variable
+        try {
+            return Double.parseDouble(PLAIN_TEXT_SERIALIZER.serialize(resolved));
+        } catch (NumberFormatException e) {
+            return 0D; // If no valid number could be parsed, return 0
         }
     }
 
-    static boolean matchesChoicePattern(String pattern, double key) {
-        pattern = pattern.trim();
-        if (pattern.contains("-")) {
-            String[] range = pattern.split("-");
-            double min = Double.parseDouble(range[0]);
-            double max = Double.parseDouble(range[1]);
-            return key >= min && key <= max;
-        } else {
-            return key == Double.parseDouble(pattern);
-        }
-    }
+    /**
+     * A simple tuple class to hold a key-value pair.
+     * @param <A> the type of the key
+     * @param <B> the type of the value
+     */
+    static class Tuple<A, B> {
+        private final A key;
+        private final B value;
 
-    static class Tuple {
-        public final String key;
-        public final String value;
-
-        public Tuple(String key, String value) {
+        public Tuple(A key, B value) {
             this.key = key;
             this.value = value;
+        }
+
+        public A getKey() {
+            return key;
+        }
+
+        public B getValue() {
+            return value;
         }
     }
 }

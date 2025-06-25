@@ -14,6 +14,15 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.function.Function;
 
+/**
+ * This tag lightens the color of the text by lightening the RGB values.
+ * </br></br>
+ * Example usage:</br>
+ * {@code <lighter>Some text</lighter>}</br>
+ *
+ * @implNote The tag will apply the {@link Color#brighter()} method to the current text color, making it lighter.
+ * @since 4.0.0
+ */
 public class LighterResolver implements TagResolver {
     @Override
     public @Nullable Tag resolve(@NotNull String name, @NotNull ArgumentQueue arguments, @NotNull Context ctx) throws ParsingException {
