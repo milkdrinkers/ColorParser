@@ -3,6 +3,7 @@ package io.github.milkdrinkers.colorparser.bukkit;
 import io.github.milkdrinkers.colorparser.bukkit.engine.BukkitParserEngine;
 import io.github.milkdrinkers.colorparser.bukkit.engine.BukkitParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.bukkit.placeholder.BukkitPlaceholderContext;
+import io.github.milkdrinkers.colorparser.bukkit.placeholder.BukkitPlayer;
 import io.github.milkdrinkers.colorparser.common.ComponentBuilder;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProviderManager;
@@ -48,7 +49,7 @@ public class BukkitComponentBuilder extends ComponentBuilder<BukkitComponentBuil
      */
     @NotNull
     public BukkitComponentBuilder papi() {
-        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null, null, null, null, null, adventure);
+        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null, adventure);
         papiEnabled = true;
         return this;
     }
@@ -62,7 +63,7 @@ public class BukkitComponentBuilder extends ComponentBuilder<BukkitComponentBuil
      */
     @NotNull
     public BukkitComponentBuilder papi(@NotNull Player player) {
-        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getName(), null, null, player, null, adventure);
+        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.PLAYER, new BukkitPlayer(player), null, adventure);
         papiEnabled = true;
         return this;
     }
@@ -76,7 +77,7 @@ public class BukkitComponentBuilder extends ComponentBuilder<BukkitComponentBuil
      */
     @NotNull
     public BukkitComponentBuilder papi(@NotNull OfflinePlayer player) {
-        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getName(), null, null, player, null, adventure);
+        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.PLAYER, new BukkitPlayer(player), null, adventure);
         papiEnabled = true;
         return this;
     }
@@ -90,7 +91,7 @@ public class BukkitComponentBuilder extends ComponentBuilder<BukkitComponentBuil
      */
     @NotNull
     public BukkitComponentBuilder papi(@NotNull Player player1, @NotNull Player player2) {
-        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.RELATIONAL, player1.getUniqueId(), player1.getName(), player2.getUniqueId(), player2.getName(), player1, player2, adventure);
+        papiContext = new BukkitPlaceholderContext(PlaceholderContext.Type.RELATIONAL, new BukkitPlayer(player1), new BukkitPlayer(player2), adventure);
         papiEnabled = true;
         return this;
     }

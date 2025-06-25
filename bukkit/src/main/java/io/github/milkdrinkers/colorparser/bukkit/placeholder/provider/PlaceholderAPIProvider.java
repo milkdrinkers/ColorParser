@@ -48,10 +48,10 @@ public class PlaceholderAPIProvider implements PlaceholderProvider<BukkitPlaceho
 
     private @NotNull String player(final @NotNull BukkitPlaceholderContext context, final @NotNull String text) {
         if (context.getPlatform1Player().isPresent()) {
-            if (context.getPlatform1Player().get().getPlayer() != null) {
-                return PlaceholderAPI.setPlaceholders(context.getPlatform1Player().get().getPlayer(), text);
+            if (context.getPlatform1Player().get().getOfflinePlayer().isOnline()) {
+                return PlaceholderAPI.setPlaceholders(context.getPlatform1Player().get().getOfflinePlayer().getPlayer(), text);
             } else {
-                return PlaceholderAPI.setPlaceholders(context.getPlatform1Player().get(), text);
+                return PlaceholderAPI.setPlaceholders(context.getPlatform1Player().get().getOfflinePlayer(), text);
             }
         } else {
             return global(text);
@@ -59,8 +59,8 @@ public class PlaceholderAPIProvider implements PlaceholderProvider<BukkitPlaceho
     }
 
     private @NotNull String relational(final @NotNull BukkitPlaceholderContext context, final @NotNull String text) {
-        if (context.getPlatform1Player().isPresent() && context.getPlatform2Player().isPresent() && context.getPlatform1Player().get().getPlayer() != null) {
-            return PlaceholderAPI.setRelationalPlaceholders(context.getPlatform1Player().get().getPlayer(), context.getPlatform2Player().get(), text);
+        if (context.getPlatform1Player().isPresent() && context.getPlatform2Player().isPresent() && context.getPlatform1Player().get().getOfflinePlayer().isOnline() && context.getPlatform2Player().get().getOfflinePlayer().isOnline()) {
+            return PlaceholderAPI.setRelationalPlaceholders(context.getPlatform1Player().get().getOfflinePlayer().getPlayer(), context.getPlatform2Player().get().getOfflinePlayer().getPlayer(), text);
         } else {
             return player(context, text);
         }

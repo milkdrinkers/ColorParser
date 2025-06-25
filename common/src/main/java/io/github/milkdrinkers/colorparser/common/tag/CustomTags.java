@@ -9,7 +9,8 @@ import org.jetbrains.annotations.NotNull;
  * @since 4.0.0
  */
 public final class CustomTags {
-    private CustomTags() {}
+    private CustomTags() {
+    }
 
     private static final TagResolver ALL = TagResolver.builder()
         .resolvers(
@@ -27,6 +28,7 @@ public final class CustomTags {
 
     /**
      * Returns a TagResolver containing all custom tags provided by the ColorParser library.
+     *
      * @return A TagResolver with all custom tags
      * @since 4.0.0
      */

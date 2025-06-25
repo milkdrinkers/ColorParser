@@ -81,7 +81,7 @@ public class MiniPlaceholdersProvider implements PlaceholderProvider<VelocityPla
     private TagResolver player(final @NotNull VelocityPlaceholderContext context) throws InvocationTargetException, IllegalAccessException {
         if (context.getPlatform1Player().isPresent()) {
             if (getAudiencePlaceholdersMethod != null) {
-                return TagResolver.resolver(global(), (TagResolver) getAudiencePlaceholdersMethod.invoke(null, context.getPlatform1Player().get()));
+                return TagResolver.resolver(global(), (TagResolver) getAudiencePlaceholdersMethod.invoke(null, context.getPlatform1Player().get().getAudience()));
             }
             return TagResolver.empty();
         } else {
@@ -96,8 +96,8 @@ public class MiniPlaceholdersProvider implements PlaceholderProvider<VelocityPla
                     player(context),
                     (TagResolver) getRelationalPlaceholdersMethod.invoke(
                         null,
-                        context.getPlatform1Player().get(),
-                        context.getPlatform2Player().get()
+                        context.getPlatform1Player().get().getAudience(),
+                        context.getPlatform2Player().get().getAudience()
                     )
                 );
             }

@@ -1,8 +1,9 @@
 package io.github.milkdrinkers.colorparser.common.engine;
 
 import io.github.milkdrinkers.colorparser.common.ComponentBuilder;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProviderManager;
-import io.github.milkdrinkers.colorparser.common.placeholder.SimplePlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
 import io.github.milkdrinkers.colorparser.common.processor.LegacyColorsProcessor;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * A customizable engine for parsing components.
  * This is the core processing unit that handles component transformations.
  */
-public abstract class ParserEngine<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends SimplePlaceholderContext<?, ?>> {
+public abstract class ParserEngine<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final @NotNull MiniMessage miniMessage;
     private final boolean parseLegacy;
     private final LegacyColorsProcessor legacyColorsProcessor = new LegacyColorsProcessor();

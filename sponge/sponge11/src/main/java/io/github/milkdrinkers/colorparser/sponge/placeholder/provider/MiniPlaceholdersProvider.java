@@ -75,9 +75,9 @@ public class MiniPlaceholdersProvider implements PlaceholderProvider<SpongePlace
     }
 
     private TagResolver player(final @NotNull SpongePlaceholderContext context) throws InvocationTargetException, IllegalAccessException {
-        if (context.getPlatform1Player().isPresent()) {
+        if (context.getPlatform1Player().isPresent() && context.getPlatform1Player().get().isOnline()) {
             if (getAudiencePlaceholdersMethod != null) {
-                return TagResolver.resolver(global(), (TagResolver) getAudiencePlaceholdersMethod.invoke(null, context.getPlatform1Player().get()));
+                return TagResolver.resolver(global(), (TagResolver) getAudiencePlaceholdersMethod.invoke(null, context.getPlatform1Player().get().getAudience()));
             }
             return TagResolver.empty();
         } else {
@@ -86,14 +86,14 @@ public class MiniPlaceholdersProvider implements PlaceholderProvider<SpongePlace
     }
 
     private TagResolver relational(final @NotNull SpongePlaceholderContext context) throws InvocationTargetException, IllegalAccessException {
-        if (context.getPlatform1Player().isPresent() && context.getPlatform2Player().isPresent()) {
+        if (context.getPlatform1Player().isPresent() && context.getPlatform2Player().isPresent() && context.getPlatform1Player().get().isOnline() && context.getPlatform2Player().get().isOnline()) {
             if (getRelationalPlaceholdersMethod != null) {
                 return TagResolver.resolver(
                     player(context),
                     (TagResolver) getRelationalPlaceholdersMethod.invoke(
                         null,
-                        context.getPlatform1Player().get(),
-                        context.getPlatform2Player().get()
+                        context.getPlatform1Player().get().getAudience(),
+                        context.getPlatform2Player().get().getAudience()
                     )
                 );
             }

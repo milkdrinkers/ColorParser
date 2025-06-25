@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Replace legacy color codes with MiniMessage-compatible color codes
+ *
  * @since 4.0.0
  */
 public class LegacyColorsProcessor implements Processor {

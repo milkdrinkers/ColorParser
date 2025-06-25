@@ -6,6 +6,7 @@ import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProvider
 import io.github.milkdrinkers.colorparser.sponge.engine.SpongeParserEngine;
 import io.github.milkdrinkers.colorparser.sponge.engine.SpongeParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.sponge.placeholder.SpongePlaceholderContext;
+import io.github.milkdrinkers.colorparser.sponge.placeholder.SpongePlayer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +44,7 @@ public class SpongeComponentBuilder extends ComponentBuilder<SpongeComponentBuil
      */
     @NotNull
     public SpongeComponentBuilder mini() {
-        miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null, null, null, null, null);
+        miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -57,7 +58,7 @@ public class SpongeComponentBuilder extends ComponentBuilder<SpongeComponentBuil
      */
     @NotNull
     public SpongeComponentBuilder mini(@NotNull Player player) {
-        miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.PLAYER, player.identity().uuid(), player.identity().name().orElse(""), null, null, player, null);
+        miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.PLAYER, new SpongePlayer(player.identity()), null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -71,7 +72,7 @@ public class SpongeComponentBuilder extends ComponentBuilder<SpongeComponentBuil
      */
     @NotNull
     public SpongeComponentBuilder mini(@NotNull Player player1, @NotNull Player player2) {
-        miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.RELATIONAL, player1.identity().uuid(), player1.identity().name().orElse(""), player2.identity().uuid(), player2.identity().name().orElse(""), player1, player2);
+        miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.RELATIONAL, new SpongePlayer(player1.identity()), new SpongePlayer(player2.identity()));
         miniPlaceholdersEnabled = true;
         return this;
     }

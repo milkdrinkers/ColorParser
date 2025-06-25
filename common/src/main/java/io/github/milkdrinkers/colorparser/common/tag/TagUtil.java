@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 final class TagUtil {
     private static final PlainTextComponentSerializer PLAIN_TEXT_SERIALIZER = PlainTextComponentSerializer.plainText();
 
-    private TagUtil() {}
+    private TagUtil() {
+    }
 
     /**
      * Modify the content of a {@link TextComponent} using a function.
@@ -83,6 +84,7 @@ final class TagUtil {
 
     /**
      * Split a string at the first {@literal :} character, into a tuple containing the content ahead of the character and after.
+     *
      * @param clause the string to split, e.g. "key:value"
      * @return a tuple containing the key and value, or null if the string does not contain a {@literal :} character
      */
@@ -96,6 +98,7 @@ final class TagUtil {
 
     /**
      * Resolves a minimessage variable using the provided context and converts it to a double.
+     *
      * @param arg the name of a minimessage variable to resolve
      * @param ctx the current context to use for resolving the variable
      * @return the resolved number as a double or 0 if the variable could not be parsed into a valid number
@@ -111,6 +114,7 @@ final class TagUtil {
 
     /**
      * A simple tuple class to hold a key-value pair.
+     *
      * @param <A> the type of the key
      * @param <B> the type of the value
      */

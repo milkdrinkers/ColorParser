@@ -1,14 +1,11 @@
 package io.github.milkdrinkers.colorparser.sponge.placeholder;
 
-import io.github.milkdrinkers.colorparser.common.placeholder.SimplePlaceholderContext;
-import net.kyori.adventure.audience.Audience;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-public class SpongePlaceholderContext extends SimplePlaceholderContext<Audience, Audience> {
-    public SpongePlaceholderContext(@NotNull Type type, @Nullable UUID player1UUID, @Nullable String player1Name, @Nullable UUID player2UUID, @Nullable String player2Name, @Nullable Audience platform1Player, @Nullable Audience platform2Player) {
-        super(type, player1UUID, player1Name, player2UUID, player2Name, platform1Player, platform2Player);
+public class SpongePlaceholderContext extends PlaceholderContext<SpongePlayer> {
+    public SpongePlaceholderContext(@NotNull Type type, @Nullable SpongePlayer platform1Player, @Nullable SpongePlayer platform2Player) {
+        super(type, platform1Player, platform2Player);
     }
 }

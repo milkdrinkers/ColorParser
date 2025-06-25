@@ -1,8 +1,9 @@
 package io.github.milkdrinkers.colorparser.common.engine;
 
 import io.github.milkdrinkers.colorparser.common.ComponentBuilder;
-import io.github.milkdrinkers.colorparser.common.placeholder.SimplePlaceholderContext;
-import io.github.milkdrinkers.colorparser.common.tag.*;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
+import io.github.milkdrinkers.colorparser.common.tag.CustomTags;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Builder for creating customized ParserEngine instances.
  */
-public abstract class ParserEngineBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends SimplePlaceholderContext<?, ?>> {
+public abstract class ParserEngineBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     protected MiniMessage miniMessage;
     protected boolean parseLegacy = true;
 

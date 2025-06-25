@@ -6,6 +6,7 @@ import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProvider
 import io.github.milkdrinkers.colorparser.paper.engine.PaperParserEngine;
 import io.github.milkdrinkers.colorparser.paper.engine.PaperParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.paper.placeholder.PaperPlaceholderContext;
+import io.github.milkdrinkers.colorparser.paper.placeholder.PaperPlayer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -44,7 +45,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder papi() {
-        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null, null, null, null, null);
+        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null);
         papiEnabled = true;
         return this;
     }
@@ -58,7 +59,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder papi(@NotNull Player player) {
-        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getName(), null, null, player, null);
+        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, new PaperPlayer(player), null);
         papiEnabled = true;
         return this;
     }
@@ -72,7 +73,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder papi(@NotNull OfflinePlayer player) {
-        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getName(), null, null, player, null);
+        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, new PaperPlayer(player), null);
         papiEnabled = true;
         return this;
     }
@@ -86,7 +87,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder papi(@NotNull Player player1, @NotNull Player player2) {
-        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.RELATIONAL, player1.getUniqueId(), player1.getName(), player2.getUniqueId(), player2.getName(), player1, player2);
+        papiContext = new PaperPlaceholderContext(PlaceholderContext.Type.RELATIONAL, new PaperPlayer(player1), new PaperPlayer(player2));
         papiEnabled = true;
         return this;
     }
@@ -103,7 +104,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder mini() {
-        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null, null, null, null, null);
+        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -117,7 +118,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder mini(@NotNull Player player) {
-        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getName(), null, null, player, null);
+        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, new PaperPlayer(player), null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -131,7 +132,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder mini(@NotNull OfflinePlayer player) {
-        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getName(), null, null, player, null);
+        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, new PaperPlayer(player), null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -145,7 +146,7 @@ public class PaperComponentBuilder extends ComponentBuilder<PaperComponentBuilde
      */
     @NotNull
     public PaperComponentBuilder mini(@NotNull Player player1, @NotNull Player player2) {
-        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.RELATIONAL, player1.getUniqueId(), player1.getName(), player2.getUniqueId(), player2.getName(), player1, player2);
+        miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.RELATIONAL, new PaperPlayer(player1), new PaperPlayer(player2));
         miniPlaceholdersEnabled = true;
         return this;
     }

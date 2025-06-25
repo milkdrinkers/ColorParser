@@ -1,24 +1,15 @@
 package io.github.milkdrinkers.colorparser.bukkit.placeholder;
 
-import io.github.milkdrinkers.colorparser.common.placeholder.SimplePlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-public class BukkitPlaceholderContext extends SimplePlaceholderContext<OfflinePlayer, Player> {
+public class BukkitPlaceholderContext extends PlaceholderContext<BukkitPlayer> {
     private final @NotNull BukkitAudiences adventure;
 
-    public BukkitPlaceholderContext(@NotNull Type type, @Nullable UUID player1UUID, @Nullable String player1Name, @Nullable UUID player2UUID, @Nullable String player2Name, @Nullable Player platform1Player, @Nullable Player platform2Player, @NotNull BukkitAudiences adventure) {
-        super(type, player1UUID, player1Name, player2UUID, player2Name, platform1Player, platform2Player);
-        this.adventure = adventure;
-    }
-
-    public BukkitPlaceholderContext(@NotNull Type type, @Nullable UUID player1UUID, @Nullable String player1Name, @Nullable UUID player2UUID, @Nullable String player2Name, @Nullable OfflinePlayer platform1Player, @Nullable Player platform2Player, @NotNull BukkitAudiences adventure) {
-        super(type, player1UUID, player1Name, player2UUID, player2Name, platform1Player, platform2Player);
+    public BukkitPlaceholderContext(@NotNull Type type, @Nullable BukkitPlayer platform1Player, @Nullable BukkitPlayer platform2Player, @NotNull BukkitAudiences adventure) {
+        super(type, platform1Player, platform2Player);
         this.adventure = adventure;
     }
 

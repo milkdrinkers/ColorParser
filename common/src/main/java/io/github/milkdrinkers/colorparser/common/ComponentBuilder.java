@@ -2,7 +2,8 @@ package io.github.milkdrinkers.colorparser.common;
 
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngine;
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngineBuilder;
-import io.github.milkdrinkers.colorparser.common.placeholder.SimplePlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.tag.TagPattern;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 /**
  * Generic ComponentBuilder class implemented by each platform for creating Adventure {@link Component}'s.
@@ -26,11 +26,11 @@ import java.util.stream.Stream;
  * @param <ColorParser>   The platform-specific {@link ComponentBuilder} type, e.g., BukkitComponentBuilder or PaperComponentBuilder
  * @param <EngineBuilder> The platform-specific {@link ParserEngineBuilder} type, e.g., BukkitParserEngineBuilder or PaperParserEngineBuilder
  * @param <Engine>        The platform-specific {@link ParserEngine} type, e.g., BukkitParserEngine or PaperParserEngine
- * @param <Context>       The platform-specific {@link SimplePlaceholderContext} type, e.g., BukkitSimplePlaceholderContext or PaperSimplePlaceholderContext
+ * @param <Context>       The platform-specific {@link PlaceholderContext} type, e.g., BukkitSimplePlaceholderContext or PaperSimplePlaceholderContext
  * @since 4.0.0
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends SimplePlaceholderContext<?, ?>> {
+public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final @NotNull Engine engine;
     private String content;
     private boolean parseLegacy;
@@ -57,8 +57,8 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      * @param value The value of this tag, a unparsed string like: <code>{@literal "<gold><bold>some text here..."}</code>
      * @return The current builder instance
      * @apiNote The literal {@link String} value is inserted into the MiniMessage content and parsed along with the rest of the content in {@link #build()}.
-     * @since 4.0.0
      * @implNote Uses {@link Placeholder#parsed(String, String)}
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     @NotNull
@@ -79,8 +79,8 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      * @param key   The placeholder tag name like <code>player_name</code>
      * @param value The value of this tag, an unbuilt {@link ColorParser} instance which is built immediately
      * @return The current builder instance
-     * @since 4.0.0
      * @implNote Uses {@link Placeholder#component(String, ComponentLike)}
+     * @since 4.0.0
      */
     @SuppressWarnings({"unchecked", "UnusedReturnValue"})
     @NotNull
@@ -101,8 +101,8 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
      * @param key   The placeholder tag name like <code>player_name</code>
      * @param value The value of this tag, an Adventure {@link ComponentLike}
      * @return The current builder instance
-     * @since 4.0.0
      * @implNote Uses {@link Placeholder#component(String, ComponentLike)}
+     * @since 4.0.0
      */
     @SuppressWarnings("unchecked")
     @NotNull

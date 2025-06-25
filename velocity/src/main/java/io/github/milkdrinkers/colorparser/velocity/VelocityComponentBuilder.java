@@ -7,6 +7,7 @@ import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderProvider
 import io.github.milkdrinkers.colorparser.velocity.engine.VelocityParserEngine;
 import io.github.milkdrinkers.colorparser.velocity.engine.VelocityParserEngineBuilder;
 import io.github.milkdrinkers.colorparser.velocity.placeholder.VelocityPlaceholderContext;
+import io.github.milkdrinkers.colorparser.velocity.placeholder.VelocityPlayer;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +44,7 @@ public class VelocityComponentBuilder extends ComponentBuilder<VelocityComponent
      */
     @NotNull
     public VelocityComponentBuilder mini() {
-        miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null, null, null, null, null);
+        miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.GLOBAL, null, null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -57,7 +58,7 @@ public class VelocityComponentBuilder extends ComponentBuilder<VelocityComponent
      */
     @NotNull
     public VelocityComponentBuilder mini(@NotNull Player player) {
-        miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.PLAYER, player.getUniqueId(), player.getGameProfile().getName(), null, null, player, null);
+        miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.PLAYER, new VelocityPlayer(player), null);
         miniPlaceholdersEnabled = true;
         return this;
     }
@@ -71,7 +72,7 @@ public class VelocityComponentBuilder extends ComponentBuilder<VelocityComponent
      */
     @NotNull
     public VelocityComponentBuilder mini(@NotNull Player player1, @NotNull Player player2) {
-        miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.RELATIONAL, player1.getUniqueId(), player1.getGameProfile().getName(), player2.getUniqueId(), player2.getGameProfile().getName(), player1, player2);
+        miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.RELATIONAL, new VelocityPlayer(player1), new VelocityPlayer(player2));
         miniPlaceholdersEnabled = true;
         return this;
     }

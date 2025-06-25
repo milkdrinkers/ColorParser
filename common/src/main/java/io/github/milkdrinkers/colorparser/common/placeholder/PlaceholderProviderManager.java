@@ -11,9 +11,10 @@ import java.util.stream.Stream;
 
 /**
  * Manages the registration and retrieval of {@link PlaceholderProvider} instances.
+ *
  * @since 4.0.0
  */
-public class PlaceholderProviderManager<Context extends SimplePlaceholderContext<?, ?>> {
+public class PlaceholderProviderManager<Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final Map<String, PlaceholderProvider<Context>> stringPlaceholderProviders = new HashMap<>();
     private final Map<String, PlaceholderProvider<Context>> miniMessagePlaceholderProviders = new HashMap<>();
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
@@ -71,6 +72,7 @@ public class PlaceholderProviderManager<Context extends SimplePlaceholderContext
     /**
      * Clears all placeholder providers from the manager.
      * This method removes all providers from both string and mini-message lists.
+     *
      * @since 4.0.0
      */
     public void clear() {

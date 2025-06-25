@@ -75,9 +75,9 @@ public class MiniPlaceholdersProvider implements PlaceholderProvider<PaperPlaceh
     }
 
     private TagResolver player(final @NotNull PaperPlaceholderContext context) throws InvocationTargetException, IllegalAccessException {
-        if (context.getPlatform1Player().isPresent() && context.getPlatform1Player().get().getPlayer() != null) {
+        if (context.getPlatform1Player().isPresent() && context.getPlatform1Player().get().getOfflinePlayer().isOnline()) {
             if (getAudiencePlaceholdersMethod != null) {
-                return TagResolver.resolver(global(), (TagResolver) getAudiencePlaceholdersMethod.invoke(null, context.getPlatform1Player().get().getPlayer()));
+                return TagResolver.resolver(global(), (TagResolver) getAudiencePlaceholdersMethod.invoke(null, context.getPlatform1Player().get().getOfflinePlayer().getPlayer()));
             }
             return TagResolver.empty();
         } else {
@@ -86,14 +86,14 @@ public class MiniPlaceholdersProvider implements PlaceholderProvider<PaperPlaceh
     }
 
     private TagResolver relational(final @NotNull PaperPlaceholderContext context) throws InvocationTargetException, IllegalAccessException {
-        if (context.getPlatform1Player().isPresent() && context.getPlatform2Player().isPresent() && context.getPlatform1Player().get().getPlayer() != null) {
+        if (context.getPlatform1Player().isPresent() && context.getPlatform2Player().isPresent() && context.getPlatform1Player().get().getOfflinePlayer().isOnline() && context.getPlatform2Player().get().getOfflinePlayer().isOnline()) {
             if (getRelationalPlaceholdersMethod != null) {
                 return TagResolver.resolver(
                     player(context),
                     (TagResolver) getRelationalPlaceholdersMethod.invoke(
                         null,
-                        context.getPlatform1Player().get().getPlayer(),
-                        context.getPlatform2Player().get()
+                        context.getPlatform1Player().get().getOfflinePlayer().getPlayer(),
+                        context.getPlatform2Player().get().getOfflinePlayer().getPlayer()
                     )
                 );
             }

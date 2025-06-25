@@ -2,16 +2,18 @@ package io.github.milkdrinkers.colorparser.common;
 
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngine;
 import io.github.milkdrinkers.colorparser.common.engine.ParserEngineBuilder;
-import io.github.milkdrinkers.colorparser.common.placeholder.SimplePlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
+import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
 import net.kyori.adventure.text.ComponentLike;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * The main entry point for the ColorParser library.
  * Provides static methods for parsing text with Adventure components.
+ *
  * @since 4.0.0
  */
-public abstract class ColorParserBase<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends SimplePlaceholderContext<?, ?>> {
+public abstract class ColorParserBase<ColorParser extends ComponentBuilder<ColorParser, EngineBuilder, Engine, Context>, EngineBuilder extends ParserEngineBuilder<ColorParser, EngineBuilder, Engine, Context>, Engine extends ParserEngine<ColorParser, EngineBuilder, Engine, Context>, Context extends PlaceholderContext<? extends PlatformPlayer>> {
     private final Engine ENGINE;
 
     /**
