@@ -1,6 +1,5 @@
 import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
-import com.vanniktech.maven.publish.SonatypeHost
 import me.champeau.jmh.JMHPlugin
 import me.champeau.jmh.JmhParameters
 
@@ -89,7 +88,7 @@ mavenPublishing {
     ))
 
     // Publish to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral()
 
     // Sign all publications
     signAllPublications()
