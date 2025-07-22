@@ -18,6 +18,9 @@
         <img alt="GitHub Issues" src="https://img.shields.io/github/issues/milkdrinkers/ColorParser?style=for-the-badge&labelColor=141417">
     </a>
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/milkdrinkers/ColorParser?style=for-the-badge&labelColor=141417">
+    <a href="https://discord.gg/cG5uWvUcM6">
+        <img alt="Discord Server" src="https://img.shields.io/discord/1008300159333040158?style=for-the-badge&logo=discord&logoColor=ffffff&label=discord&labelColor=141417&color=%235865F2">
+    </a>
 </p>
 
 A simple utility library for adding [MiniMessage](https://docs.advntr.dev/minimessage/format.html) support with [Adventure](https://docs.advntr.dev/index.html) to your plugin/mod on any platform, with extensive support for placeholder systems like [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) and [MiniPlaceholders](https://github.com/MiniPlaceholders/MiniPlaceholders). 
