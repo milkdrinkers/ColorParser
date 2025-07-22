@@ -195,3 +195,20 @@ You can find the license the source code and all assets are under [here](../LICE
 - [**CubBossa:**](https://github.com/CubBossa) *For their excellent translations library [_TinyTranslations_](https://github.com/CubBossa/TinyTranslations) from which many of the ideas for new default tags were inspired.*
 - [**4drian3d:**](https://github.com/4drian3d) *For creating and maintaining the [_MiniPlaceholders_](https://github.com/MiniPlaceholders/MiniPlaceholders) plugin/mod providing placeholder support on multiple platforms.*
 - [**extendedclip & contributors:**](https://github.com/PlaceholderAPI/PlaceholderAPI/graphs/contributors) *For creating and maintaining [_PlaceholderAPI_](https://github.com/placeholderapi/placeholderapi/) providing placeholder support on Bukkit based platforms.*
+
+---
+
+## 🔥 Consuming Projects
+
+Here is a list of known projects using ColorParser:
+- [Minecraft-Plugin-Template](https://github.com/milkdrinkers/Minecraft-Plugin-Template) - *Provided by default in a Minecraft Plugin Template.*
+- [BoltUX](https://github.com/Alathra/BoltUX) - *BoltUX overhauls the user experience of the Bolt plugin in Minecraft.*
+- [RaidsPerRegion](https://github.com/Alathra/RaidsPerRegion) - *RaidsPerRegion a Minecraft PvE raids plugin.*
+- [Maquillage](https://github.com/milkdrinkers/Maquillage) - *Maquillage a Minecraft cosmetics plugin.*
+- [Stewards](https://github.com/milkdrinkers/Stewards) - *Stewards a Minecraft Towny NPC extension plugin.*
+- [AlathraPorts](https://github.com/Alathra/AlathraPorts) - *AlathraPorts implements a dynamic fast-travel mechanic for the Minecraft.*
+- [Enderchester](https://github.com/milkdrinkers/Enderchester) - *Enderchester is a Minecraft plugin adding quality of life features to enderchests.*
+- [CharacterCards](https://github.com/Alathra/CharacterCards) - *CharacterCards is a Minecraft plugin allowing players to create cards describing their character.*
+- [SimpleLockpicking](https://github.com/Alathra/SimpleLockpicking) - *SimpleLockpicking is a Minecraft plugin adding lockpicking to the game.*
+- [VPack](https://github.com/Alathra/VPack) - *A Velocity plugin for sending resourcepacks to clients using Adventure.*
+- (*Add your project here!*)
