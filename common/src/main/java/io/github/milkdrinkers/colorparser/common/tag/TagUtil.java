@@ -9,9 +9,9 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Provides utility methods for working with tag resolvers.
@@ -27,11 +27,11 @@ final class TagUtil {
      *
      * @param modifier the function to apply to the content
      * @return the tag that applies this modification
-     * @apiNote Shorthand for using {@link #modify(Component, Function)}
-     * @see #modify(Component, Function)
+     * @apiNote Shorthand for using {@link #modify(Component, int, Function)}
+     * @see #modify(Component, int, Function)
      */
     static @NotNull Tag modify(@NotNull Function<String, String> modifier) {
-        return (Modifying) (current, depth) -> modify(current, modifier);
+        return (Modifying) (current, depth) -> modify(current, depth, modifier);
     }
 
     /**
@@ -39,11 +39,11 @@ final class TagUtil {
      *
      * @param modifier the function to apply to the content
      * @return the tag that applies this modification
-     * @apiNote Shorthand for using {@link #modify(Component, Function)}
-     * @see #modify(Component, Function)
+     * @apiNote Shorthand for using {@link #modify(Component, int, Function)}
+     * @see #modify(Component, int, Function)
      */
     static @NotNull Tag modify(@NotNull BiFunction<Component, String, String> modifier) {
-        return (Modifying) (current, depth) -> modify(current, modifier);
+        return (Modifying) (current, depth) -> modify(current, depth, modifier);
     }
 
     /**
@@ -53,19 +53,12 @@ final class TagUtil {
      * @param modifier  the function to apply to the content
      * @return the modified component
      */
-    static @NotNull Component modify(Component component, @NotNull Function<String, String> modifier) {
-        // Recursively iterate through children and modify them
-        component = component.children(
-            component.children()
-                .stream()
-                .map(child -> modify(child, modifier))
-                .collect(Collectors.toList())
-        );
-
+    static @NotNull Component modify(Component component, int depth, @NotNull Function<String, String> modifier) {
         // Modify the content of the current component if it's a TextComponent
         if (component instanceof TextComponent) {
             final TextComponent casted = (TextComponent) component;
-            component = casted.content(modifier.apply(casted.content()));
+            return casted.content(modifier.apply(casted.content()))
+                .children(Collections.emptyList());
         }
 
         return component;
@@ -78,8 +71,8 @@ final class TagUtil {
      * @param modifier  the function to apply to the content
      * @return the modified component
      */
-    static Component modify(Component component, @NotNull BiFunction<Component, String, String> modifier) {
-        return modify(component, (string) -> modifier.apply(component, string));
+    static Component modify(Component component, int depth, @NotNull BiFunction<Component, String, String> modifier) {
+        return modify(component, depth, (string) -> modifier.apply(component, string));
     }
 
     /**
