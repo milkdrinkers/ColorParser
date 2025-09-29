@@ -17,6 +17,7 @@ sponge-api10 = "org.spongepowered:spongeapi:10.0.0"
 sponge-api11 = "org.spongepowered:spongeapi:11.0.0"
 sponge-api12 = "org.spongepowered:spongeapi:12.0.0"
 sponge-api13 = "org.spongepowered:spongeapi:13.0.0"
+sponge-api14 = "org.spongepowered:spongeapi:14.0.0"
 
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
