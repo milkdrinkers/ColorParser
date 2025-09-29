@@ -77,7 +77,6 @@ subprojects {
 
         test {
             useJUnitPlatform()
-            failFast = true
         }
     }
 }
