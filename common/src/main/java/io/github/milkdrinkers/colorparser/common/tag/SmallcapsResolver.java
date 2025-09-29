@@ -44,12 +44,12 @@ public class SmallcapsResolver implements TagResolver {
         map.put('p', 'ᴘ');
         map.put('q', 'ǫ');
         map.put('r', 'ʀ');
-        map.put('s', 'ˢ');
+        map.put('s', 's');
         map.put('t', 'ᴛ');
         map.put('u', 'ᴜ');
         map.put('v', 'ᴠ');
         map.put('w', 'ᴡ');
-        map.put('x', 'ᴤ');
+        map.put('x', 'x');
         map.put('y', 'ʏ');
         map.put('z', 'ᴢ');
 
