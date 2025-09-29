@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 import static io.github.milkdrinkers.colorparser.common.tag.TagUtil.resolveVariableToNumber;
 
@@ -38,7 +39,8 @@ public class NumberResolver implements TagResolver {
         final String pattern = args.popOr("Missing pattern argument!").value();
 
         try {
-            final DecimalFormat df = new DecimalFormat(pattern);
+            final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(Locale.ENGLISH);
+            df.applyPattern(pattern);
             return Tag.inserting(Component.text(df.format(valueVariable)));
         } catch (NullPointerException | IllegalArgumentException | ArithmeticException e) {
             throw ctx.newException("Invalid pattern argument!", e, args);
