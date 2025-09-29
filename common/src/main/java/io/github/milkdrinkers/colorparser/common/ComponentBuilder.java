@@ -4,6 +4,8 @@ import io.github.milkdrinkers.colorparser.common.engine.ParserEngine;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlaceholderContext;
 import io.github.milkdrinkers.colorparser.common.placeholder.PlatformPlayer;
 import io.github.milkdrinkers.colorparser.common.tag.CustomTags;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.audience.ForwardingAudience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.tag.TagPattern;
@@ -12,6 +14,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,6 +41,33 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
     private boolean parseLegacy;
     private final List<TagResolver> placeholders = new ArrayList<>(8);
     private final List<TagResolver> miscTagResolvers = new ArrayList<>(4);
+
+    // Used by adventure (and MiniPlaceholders) when deserialising to add context for who the target is
+    protected Audience audienceTarget = null;
+    protected Audience audienceRelation = null;
+
+    private static volatile boolean miniPlaceholdersInitialized = false; // Tracks whether we have tried and failed to load MiniPlaceholders 3.X (prevents us from doing it again)
+    private static volatile Method MINIPLACEHOLDERS_METHOD_RELATIONAL; // Used to send relational placeholders using MiniPlaceholders
+
+    /**
+     * Lazy loads the miniplaceholders method required for using relational placeholders.
+     */
+    private void lazyloadMiniPlaceholders() {
+        if (miniPlaceholdersInitialized)
+            return;
+
+        synchronized (ComponentBuilder.class) {
+            Method tempMethod = null;
+            try {
+                final Class<?> tempClass = Class.forName("io.github.miniplaceholders.api.types.RelationalAudience");
+                tempMethod = tempClass.getMethod("from", Audience.class, Audience.class);
+            } catch (Exception ignored) {
+            } finally {
+                MINIPLACEHOLDERS_METHOD_RELATIONAL = tempMethod;
+                miniPlaceholdersInitialized = true;
+            }
+        }
+    }
 
     /**
      * Creates a new ComponentBuilder with the given engine and content.
@@ -299,7 +329,23 @@ public abstract class ComponentBuilder<ColorParser extends ComponentBuilder<Colo
         System.arraycopy(placeholders.toArray(new TagResolver[0]), 0, resolvers, 0, placeholders.size());
         System.arraycopy(miscTagResolvers.toArray(new TagResolver[0]), 0, resolvers, placeholders.size(), miscTagResolvers.size());
 
-        return getEngine().getMiniMessage().deserialize(text, resolvers); // Parse the final string to a Component
+        // Parse the final string to a Component
+        if (audienceTarget != null) {
+
+            // MiniPlaceholders 3.X relational placeholder support
+            if (audienceRelation != null) {
+                lazyloadMiniPlaceholders();
+                if (MINIPLACEHOLDERS_METHOD_RELATIONAL != null) {
+                    try {
+                        final ForwardingAudience.Single relationalAudience = (ForwardingAudience.Single) MINIPLACEHOLDERS_METHOD_RELATIONAL.invoke(null, audienceTarget, audienceRelation);
+                        return getEngine().getMiniMessage().deserialize(text, relationalAudience, resolvers);
+                    } catch (Exception ignored) {
+                    }
+                }
+            }
+            return getEngine().getMiniMessage().deserialize(text, audienceTarget, resolvers);
+        }
+        return getEngine().getMiniMessage().deserialize(text, resolvers);
     }
 
     /**

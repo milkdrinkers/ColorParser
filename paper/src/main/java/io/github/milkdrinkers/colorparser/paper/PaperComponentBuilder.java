@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * Platform-specific {@link ComponentBuilder} for creating Adventure {@link Component}'s.
  * <p>
@@ -121,6 +123,7 @@ public final class PaperComponentBuilder extends ComponentBuilder<PaperComponent
      */
     @NotNull
     public PaperComponentBuilder mini(@NotNull Player player) {
+        audienceTarget = player.filterAudience(a -> true);
         miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, new PaperPlayer(player), null);
         miniPlaceholdersEnabled = true;
         return this;
@@ -135,6 +138,8 @@ public final class PaperComponentBuilder extends ComponentBuilder<PaperComponent
      */
     @NotNull
     public PaperComponentBuilder mini(@NotNull OfflinePlayer player) {
+        if (player.isOnline())
+            audienceTarget = Objects.requireNonNull(player.getPlayer()).filterAudience(a -> true);
         miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.PLAYER, new PaperPlayer(player), null);
         miniPlaceholdersEnabled = true;
         return this;
@@ -149,6 +154,8 @@ public final class PaperComponentBuilder extends ComponentBuilder<PaperComponent
      */
     @NotNull
     public PaperComponentBuilder mini(@NotNull Player player1, @NotNull Player player2) {
+        audienceTarget = player1.filterAudience(a -> true);
+        audienceRelation = player2.filterAudience(a -> true);
         miniPlaceholdersContext = new PaperPlaceholderContext(PlaceholderContext.Type.RELATIONAL, new PaperPlayer(player1), new PaperPlayer(player2));
         miniPlaceholdersEnabled = true;
         return this;

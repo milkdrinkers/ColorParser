@@ -59,6 +59,7 @@ public final class VelocityComponentBuilder extends ComponentBuilder<VelocityCom
      */
     @NotNull
     public VelocityComponentBuilder mini(@NotNull Player player) {
+        audienceTarget = player;
         miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.PLAYER, new VelocityPlayer(player), null);
         miniPlaceholdersEnabled = true;
         return this;
@@ -73,6 +74,8 @@ public final class VelocityComponentBuilder extends ComponentBuilder<VelocityCom
      */
     @NotNull
     public VelocityComponentBuilder mini(@NotNull Player player1, @NotNull Player player2) {
+        audienceTarget = player1;
+        audienceRelation = player2;
         miniPlaceholdersContext = new VelocityPlaceholderContext(PlaceholderContext.Type.RELATIONAL, new VelocityPlayer(player1), new VelocityPlayer(player2));
         miniPlaceholdersEnabled = true;
         return this;

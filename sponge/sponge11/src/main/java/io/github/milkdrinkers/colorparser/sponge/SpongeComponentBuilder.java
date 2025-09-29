@@ -59,6 +59,7 @@ public final class SpongeComponentBuilder extends ComponentBuilder<SpongeCompone
      */
     @NotNull
     public SpongeComponentBuilder mini(@NotNull Player player) {
+        audienceTarget = player;
         miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.PLAYER, new SpongePlayer(player.identity()), null);
         miniPlaceholdersEnabled = true;
         return this;
@@ -73,6 +74,8 @@ public final class SpongeComponentBuilder extends ComponentBuilder<SpongeCompone
      */
     @NotNull
     public SpongeComponentBuilder mini(@NotNull Player player1, @NotNull Player player2) {
+        audienceTarget = player1;
+        audienceRelation = player2;
         miniPlaceholdersContext = new SpongePlaceholderContext(PlaceholderContext.Type.RELATIONAL, new SpongePlayer(player1.identity()), new SpongePlayer(player2.identity()));
         miniPlaceholdersEnabled = true;
         return this;
