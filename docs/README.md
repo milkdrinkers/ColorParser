@@ -1,6 +1,6 @@
 <div align="center">
   <h1>ColorParser</h1>
-    
+
   *A simple utility library for adding [MiniMessage](https://docs.advntr.dev/minimessage/format.html) support with [Adventure](https://docs.advntr.dev/index.html) to your plugin/mod on any platform, with extensive support for placeholder systems like [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) and [MiniPlaceholders](https://github.com/MiniPlaceholders/MiniPlaceholders).*
 
 <br>
@@ -33,6 +33,7 @@
 ---
 
 ## 🌟 Features
+
 - Simple API for parsing strings into Adventure components
 - Backwards compatibility for legacy color codes like `§` & `&`
 - Built-in support for placeholder systems like PlaceholderAPI and MiniPlaceholders
@@ -70,11 +71,11 @@
 
 ## ❓ Why Make This?
 
-ColorParser was created from a place of frustration. Although Adventure/MiniMessage is great and incredibly powerful, implementing its usage in an actual project can be cumbersome, tedious, and in many cases result in some extremely verbose code. 
+ColorParser was created from a place of frustration. Although Adventure/MiniMessage is great and incredibly powerful, implementing its usage in an actual project can be cumbersome, tedious, and in many cases result in some extremely verbose code.
 
 Trying to provide consistent PlaceholderAPI and MiniPlaceholders support, backwards compatibility for legacy color codes, and more, significantly compounds this unfortunate effect. Eventually, what was originally a simple single class Builder became a library that has grown with my own needs over time.
 
-**The premise is and has always been simple.** We want to take our locale/translation strings and parse them into Components with as little code as possible, while still providing rich API for those who need it. After all, what server administrator doesn't want their plugins' messages to be customizable to the maximum. 
+**The premise is and has always been simple.** We want to take our locale/translation strings and parse them into Components with as little code as possible, while still providing rich API for those who need it. After all, what server administrator doesn't want their plugins' messages to be customizable to the maximum.
 
 ## 📦 Installation
 
@@ -96,6 +97,7 @@ dependencies {
     implementation("io.github.milkdrinkers:colorparser-bukkit:VERSION")
 }
 ```
+
 </details>
 
 <details>
@@ -122,6 +124,7 @@ dependencies {
     </dependencies>
 </project>
 ```
+
 </details>
 
 ## Usage Example 🚀
@@ -159,7 +162,7 @@ Component message = ColorParser.of("Your Displayname is: %player_displayname%")
     .build();
 ```
 
-## 📚 Documentation 
+## 📚 Documentation
 
 - [Javadoc](https://javadoc.io/doc/io.github.milkdrinkers/colorparser-common)
 - [Documentation](https://milkdrinkers.athyrium.eu/colorparser)
@@ -170,7 +173,7 @@ Component message = ColorParser.of("Your Displayname is: %player_displayname%")
 
 ---
 
-## 🔨 Building from Source 
+## 🔨 Building from Source
 
 ```bash
 git clone https://github.com/milkdrinkers/ColorParser.git
@@ -196,16 +199,17 @@ You can find the license the source code and all assets are under [here](../LICE
 
 ## ❤️ Acknowledgments
 
-- [**Adventure:**](https://github.com/KyoriPowered/adventure) *The creator and contributors of [_Kyori Adventure_](https://github.com/KyoriPowered/adventure) for creating and maintaining the adventure collection of libraries.*
-- [**CubBossa:**](https://github.com/CubBossa) *For their excellent translations library [_TinyTranslations_](https://github.com/CubBossa/TinyTranslations) from which many of the ideas for new default tags were inspired.*
-- [**4drian3d:**](https://github.com/4drian3d) *For creating and maintaining the [_MiniPlaceholders_](https://github.com/MiniPlaceholders/MiniPlaceholders) plugin/mod providing placeholder support on multiple platforms.*
-- [**extendedclip & contributors:**](https://github.com/PlaceholderAPI/PlaceholderAPI/graphs/contributors) *For creating and maintaining [_PlaceholderAPI_](https://github.com/placeholderapi/placeholderapi/) providing placeholder support on Bukkit based platforms.*
+- [**Adventure:**](https://github.com/KyoriPowered/adventure) *The creator and contributors of [*Kyori Adventure*](https://github.com/KyoriPowered/adventure) for creating and maintaining the adventure collection of libraries.*
+- [**CubBossa:**](https://github.com/CubBossa) *For their excellent translations library [*TinyTranslations*](https://github.com/CubBossa/TinyTranslations) from which many of the ideas for new default tags were inspired.*
+- [**4drian3d:**](https://github.com/4drian3d) *For creating and maintaining the [*MiniPlaceholders*](https://github.com/MiniPlaceholders/MiniPlaceholders) plugin/mod providing placeholder support on multiple platforms.*
+- [**extendedclip & contributors:**](https://github.com/PlaceholderAPI/PlaceholderAPI/graphs/contributors) *For creating and maintaining [*PlaceholderAPI*](https://github.com/placeholderapi/placeholderapi/) providing placeholder support on Bukkit based platforms.*
 
 ---
 
 ## 🔥 Consuming Projects
 
 Here is a list of known projects using ColorParser:
+
 - [Minecraft-Plugin-Template](https://github.com/milkdrinkers/Minecraft-Plugin-Template) - *Provided by default in a Minecraft Plugin Template.*
 - [BoltUX](https://github.com/Alathra/BoltUX) - *BoltUX overhauls the user experience of the Bolt plugin in Minecraft.*
 - [RaidsPerRegion](https://github.com/Alathra/RaidsPerRegion) - *RaidsPerRegion a Minecraft PvE raids plugin.*
