@@ -99,7 +99,7 @@ jobs:
 
       # Upload the snapshot artifacts
       - name: Upload Snapshot Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Snapshot-${{ github.run_number }}
           path: ${{ github.workspace }}/**/build/libs/*.jar
@@ -185,7 +185,7 @@ jobs:
             ${{ github.workspace }}/**/build/libs/*.jar
 
       - name: Upload Release Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Release
           path: ${{ github.workspace }}/**/build/libs/*.jar
