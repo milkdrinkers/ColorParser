@@ -11,7 +11,7 @@
 <a href="https://central.sonatype.com/artifact/io.github.milkdrinkers/colorparser-common">
     <img alt="Maven Central Version" src="https://img.shields.io/maven-central/v/io.github.milkdrinkers/colorparser-common?style=for-the-badge&labelColor=141417">
 </a>
-<a href="https://milkdrinkers.athyrium.eu/colorparser">
+<a href="https://docs.milkdrinkers.dev/colorparser">
     <img alt="Documentation" src="https://img.shields.io/badge/DOCUMENTATION-900C3F?style=for-the-badge&labelColor=141417">
 </a>
 <a href="https://javadoc.io/doc/io.github.milkdrinkers/colorparser-common">
@@ -79,7 +79,7 @@ Trying to provide consistent PlaceholderAPI and MiniPlaceholders support, backwa
 
 ## 📦 Installation
 
-Please read the full installation instructions in the [documentation here](https://milkdrinkers.athyrium.eu/colorparser/installation).
+Please read the full installation instructions in the [documentation here](https://docs.milkdrinkers.dev/colorparser/installation).
 
 The `paper`, `velocity`, `bukkit` & `sponge` modules transitively include `common`. Additionally you should shade the library into your plugin jar.
 
@@ -165,7 +165,7 @@ Component message = ColorParser.of("Your Displayname is: %player_displayname%")
 ## 📚 Documentation
 
 - [Javadoc](https://javadoc.io/doc/io.github.milkdrinkers/colorparser-common)
-- [Documentation](https://milkdrinkers.athyrium.eu/colorparser)
+- [Documentation](https://docs.milkdrinkers.dev/colorparser)
 - [Maven Central](https://central.sonatype.com/search?q=colorparser&namespace=io.github.milkdrinkers)
 - [MiniMessage Format](https://docs.advntr.dev/minimessage/format.html)
 - [MiniMessage Previewer](https://webui.advntr.dev/)
