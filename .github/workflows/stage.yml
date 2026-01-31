@@ -52,7 +52,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1 # Shallow clone for faster checkout
 
@@ -99,7 +99,7 @@ jobs:
 
       # Upload the snapshot artifacts
       - name: Upload Snapshot Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Snapshot-${{ github.run_number }}
           path: ${{ github.workspace }}/**/build/libs/*.jar
@@ -115,7 +115,7 @@ jobs:
       # Checkout repository
       - name: Checkout Repository
         if: ${{ !contains(github.ref_name, inputs.prerelease_suffix) }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1 # Shallow clone for faster checkout
 
@@ -141,7 +141,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1 # Shallow clone for faster checkout
 
@@ -185,7 +185,7 @@ jobs:
             ${{ github.workspace }}/**/build/libs/*.jar
 
       - name: Upload Release Artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Release
           path: ${{ github.workspace }}/**/build/libs/*.jar
