@@ -25,4 +25,7 @@ include(
     "sponge:sponge12",
     "sponge:sponge13",
     "sponge:sponge14",
+    "sponge:sponge15",
+    "sponge:sponge16",
+    "sponge:sponge17",
 )
