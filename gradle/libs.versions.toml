@@ -1,6 +1,6 @@
 [versions]
-adventure = "4.21.0"
-adventure-platform = "4.4.0"
+adventure = "5.1.1"
+adventure-platform = "4.4.1"
 jmh = "1.37"
 
 [libraries]
