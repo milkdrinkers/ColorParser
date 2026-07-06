@@ -31,7 +31,7 @@ adventure-ansi = { module = "net.kyori:adventure-text-serializer-ansi", version 
 adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platform" }
 adventure-platform-bungeecord = { module = "net.kyori:adventure-platform-bungeecord", version.ref = "adventure-platform" }
 
-placeholderapi = "me.clip:placeholderapi:2.12.2"
+placeholderapi = "me.clip:placeholderapi:2.12.3"
 miniplaceholders = "io.github.miniplaceholders:miniplaceholders-api:2.0.0"
 
 # Testing
