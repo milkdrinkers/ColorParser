@@ -7,6 +7,10 @@ updates:
     commit-message:
       prefix: "ci:"
     target-branch: "main"
+    groups:
+      actions:
+        patterns:
+          - "*"
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
@@ -15,12 +19,12 @@ updates:
       prefix: "build:"
     target-branch: "main"
     groups:
-      "org.flywaydb":
+      "minor-and-patch":
         patterns:
-          - "org.flywaydb*"
-      "org.jooq":
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      "major":
         patterns:
-          - "org.jooq*"
-      "net.kyori":
-        patterns:
-          - "net.kyori*"
+          - "*"
