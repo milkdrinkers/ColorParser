@@ -23,6 +23,8 @@ subprojects {
     project.version = rootProject.version
     project.description = rootProject.description
 
+    base.archivesName.set("${rootProject.name}-${project.name}")
+
     repositories {
         mavenCentral()
         maven("https://repo.papermc.io/repository/maven-public/")
